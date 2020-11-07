@@ -1,0 +1,19 @@
+#btn-girar{
+   color: white;
+    background-color: brown;
+    width: 100%;
+    height: 40px;
+}
+#ruleta{
+    width: 100%;
+  
+}
+h1{
+    font-size: 30px;
+    font-family:Georgia;
+    font-weight: bold;
+    text-align: center;
+}
+body{
+    background-color: aqua;
+}

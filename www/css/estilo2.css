@@ -1,0 +1,47 @@
+.page-content h3{
+    text-align: center;
+    width: 90%;
+    margin: 0 auto;
+}
+
+#imgRuleta{
+    width: 100%;
+    margin: 0 auto;
+}
+
+#geoPort img{
+    width: 100%;
+    margin: 0 auto;
+    margin-top: 10%;
+
+}
+
+#costumPort img{
+    width: 100%;
+    margin: 0 auto;
+    margin-top: 10%;
+}
+
+#historiaPort img{
+    width: 100%;
+    margin: 0 auto;
+    margin-top: 10%;
+}
+#gastroPort img{
+    width: 100%;
+    margin: 0 auto;
+    margin-top: 10%;
+}
+.contenedorAutores{
+    width: 90%;
+    margin: 0 auto;
+}
+.demo-card-header-pic .card-header{
+    height: 100vw;
+    background-size: cover;
+    background-position: center;
+    color: #fff;
+}
+.demo-card-header-pic .card-content-padding .data{
+    color: #8e8e93;
+}

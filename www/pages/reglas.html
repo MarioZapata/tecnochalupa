@@ -1,0 +1,129 @@
+<template>
+    <div class="page">
+        <div class="navbar">
+            <div class="navbar-inner sliding">
+                <!-- 			<div class="left">
+                    <a href="#" class="link back">
+                        <link rel="stylesheet" href="css/estilo.css">
+                        <i class="icon icon-back"></i>
+                        <span class="if-not-md">Back</span>
+                    </a>
+                </div> -->
+                <div class="title">REGLAS DEL JUEGO</div>
+                <div class="right">
+                    <a href="/" class="homeppal">
+                        <link rel="stylesheet" href="css/estilo.css">
+                        <i class="f7-icons">house</i>
+                        <span>INICIO</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="page-content">
+    
+            <h2 id="tituloReglas">REGLAS DEL JUEGO DE LA TECNOCHALUPA VOCACIONAL</h2>
+            <div id="textoReglas">
+                <ol>
+                    <li>Cada estudiante entra a la aplicación educativa TECNOCHALUPA VOCACIONAL y elige en la pantalla de su Nica Tablet una carta de su preferencia.</li>
+                    <li>El animador (docente) girará la ruleta para seleccionar la aseveración y la cantará en voz alta con buena entonación y dinamismo.</li>
+                    <li>Al terminar de cantar la aseveración los participantes presionarán sobre la imagen que según él o ella está relacionada con la aseveración, de inmediato en voz alta dirá que imagen eligió de su cartilla y que nombre corresponde a tal descripción</li>
+                        <li>Si la imagen seleccionada en la cartilla por él o la participante es correcta, este o esta va sumando un punto por cada una, el cual es detallado en el tablero de participantes, que previamente el animador ha colocado en la parte frontal
+                            del salón de clase a la vista de los jugadores.</li>
+                        <li>Si a él o la participante le aparece un comodín y es cantado por el animador, este gana dos puntos extras, los cuales deberá dárselos a uno de sus compañeros del juego como un acto de solidaridad y compañerismo.</li>
+                        <li>Gana el participante que al final del juego haya sumado la mayor cantidad de respuestas acertadas.</li>
+                        <li>El animador entregará al ganador un trofeo como premio. </li>
+                </ol>
+            </div>
+            <footer class="pie">
+                Derechos Reservados 2020
+            </footer>
+    
+    
+        </div>
+    </div>
+
+</template>
+<script>
+    return {
+        methods: {
+            toggleSwipeStep: function() {
+                var self = this;
+                self.sheetSwipeToStep.stepToggle();
+            },
+            playMusic: function() {
+                var self = this;
+                audioPrueba.play();
+            },
+            muteMusic: function() {
+                var self = this;
+                audioPrueba.pause();
+            },
+            createSheet: function() {
+                var self = this;
+                // Create sheet modal
+                if (!self.sheet) {
+                    self.sheet = self.$app.sheet.create({
+                        content: '\
+            <div class="sheet-modal">\
+              <div class="toolbar">\
+                <div class="toolbar-inner justify-content-flex-end">\
+                  <a href="#" class="link sheet-close">Close</a>\
+                </div>\
+              </div>\
+              <div class="sheet-modal-inner">\
+                <div class="page-content">\
+                  <div class="block">\
+                    <p>This sheet modal was created dynamically</p>\
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse faucibus mauris leo, eu bibendum neque congue non. Ut leo mauris, eleifend eu commodo a, egestas ac urna. Maecenas in lacus faucibus, viverra ipsum pulvinar, molestie arcu. Etiam lacinia venenatis dignissim. Suspendisse non nisl semper tellus malesuada suscipit eu et eros. Nulla eu enim quis quam elementum vulputate. Mauris ornare consequat nunc viverra pellentesque. Aenean semper eu massa sit amet aliquam. Integer et neque sed libero mollis elementum at vitae ligula. Vestibulum pharetra sed libero sed porttitor. Suspendisse a faucibus lectus.</p>\
+                  </div>\
+                </div>\
+              </div>\
+            </div>\
+          '
+                    });
+                }
+                // Close inline sheet
+                if (self.$('.demo-sheet.modal-in').length > 0) self.$app.sheet.close('.demo-sheet');
+                // Open it
+                self.sheet.open();
+            },
+        },
+        on: {
+            pageInit: function() {
+                var self = this;
+                self.sheetPush = self.$app.sheet.create({
+                    el: '.demo-sheet-push',
+                    push: true,
+                    backdrop: true,
+                });
+                self.sheetSwipeToClose = self.$app.sheet.create({
+                    el: '.demo-sheet-swipe-to-close',
+                    swipeToClose: true,
+                    push: true,
+                    backdrop: true,
+                });
+                self.sheetSwipeToStep = self.$app.sheet.create({
+                    el: '.demo-sheet-swipe-to-step',
+                    swipeToClose: true,
+                    swipeToStep: true,
+                    push: true,
+                    backdrop: true,
+                });
+            },
+            pageBeforeOut: function() {
+                var self = this;
+                // Close opened sheets on page out
+                self.$app.sheet.close();
+            },
+            pageBeforeRemove: function() {
+                var self = this;
+                // Destroy sheet modal when page removed
+                if (self.sheet) self.sheet.destroy();
+                if (self.sheetPush) self.sheetPush.destroy();
+                if (self.sheetSwipeToClose) self.sheetSwipeToClose.destroy();
+                if (self.sheetSwipeToStep) self.sheetSwipeToStep.destroy();
+            },
+        }
+    }
+</script>

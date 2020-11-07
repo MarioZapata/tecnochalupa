@@ -1,0 +1,123 @@
+
+		<template></template>
+		<div class="page">
+			<div class="navbar">
+				<div class="navbar-inner sliding">
+		<!-- 			<div class="left">
+						<a href="#" class="link back">
+							<link rel="stylesheet" href="css/estilo.css">
+							<i class="icon icon-back"></i>
+							<span class="if-not-md">Back</span>
+						</a>
+					</div> -->
+					<div class="title">Historia</div>
+					<div class="right">
+							<a href="/" class="homeppal">
+								<link rel="stylesheet" href="css/estilo.css">
+								<i class="f7-icons">house</i>
+								<span class="if-not-md">Back</span>
+							</a>
+						</div>
+				</div>
+			</div>
+			<div class="page-content">
+		
+				<a href="/ruleta/" class="btnVolver button button-large button-raised button-fill ">Volver a la Ruleta</a>
+				<div id="pregunta"></div>
+				<div id="respuestas"></div>
+		
+		<!-- 		<input type="button" class="btnGirar button button-fill color-green" value="Comprobar Respuesta" @click="comprobar">
+		 -->        <a href="#" class="btnVolver button button-large button-raised button-fill color-green" @click="comprobar">Comprobar Respuesta</a>
+			</div>
+		</div>
+		</template>
+		
+		<script>
+			return {
+				data: function () {
+					return {
+						indicie_respuesta_correcta: 0,
+						preguntas: ["¿Cuando fue fundado Wiwili?", "¿Donde se ubicaron los primeros pobladores de wiwili?", "¿Quienes fundaron el pueblo de Wiwili N,S?", "¿Cual es el origen de el nombre Wiwili?"],
+						respuestas: [
+							[
+								"1920 a 1930",
+								"1970", 
+								"1990",
+							    "1898"
+							],
+							[
+							"A orillas del rio Coco",
+							 "Muy alejados del rio",
+							  "en la parte centrica actualmente",
+							   "Ninguna de las anteriores"
+							],
+							[
+							"El sr.Eduardo Palma,Barbara Palma y el sr.Clemente Calderon",
+							 "Justina Gonzalez y Ernesto Garmendia", 
+							 "Jaime Barahona y Jorling Gutierrez",
+							  "Todos los anteriores"
+							],
+							[
+							"Es una palabra de origen misquita",
+							"Es una palabra de origen náhuatl",
+								"Origen español",
+								"Ninguna de Todas"
+							],
+						]
+					}
+				},
+				methods: {
+					jugar: function () {
+						var self = this;
+		
+						var respuestas = self.respuestas;
+						var preguntas = self.preguntas;
+		
+						var indice_aleatorio = Math.floor(Math.random() * preguntas.length);
+						var alea = Math.random();
+						console.log("Número Alea es: ", alea);
+						console.log("Número Respuesta Aleatoria es: ", indice_aleatorio);
+						var respuestas_posibles = respuestas[indice_aleatorio];
+						var posiciones = [0, 1, 2, 3];
+						var respuestas_reordenadas = [];
+		
+						var ya_se_metio = false;
+						for (i in respuestas_posibles) {
+							var posicion_aleatoria = Math.floor(Math.random() * posiciones.length);
+							if (posicion_aleatoria == 0 && ya_se_metio == false) {
+								indicie_respuesta_correcta = i;
+								ya_se_metio = true;
+							}
+							respuestas_reordenadas[i] = respuestas_posibles[posiciones[posicion_aleatoria]];
+							posiciones.splice(posicion_aleatoria, 1);
+						}
+						var txt_respuestas = "";
+						txt_respuestas += '<div class="list"><ul>';
+						for (i in respuestas_reordenadas) {
+							txt_respuestas += '<li><label class="item-radio item-content radiosResp"><input type="radio" name="my-radio" value="' + i + '"/><i class="icon icon-radio"></i><div class="item-inner"><div class="item-text textDato">' + respuestas_reordenadas[i] + '</div></div></label></li>';
+						}
+						txt_respuestas += '</ul></div>';
+						document.getElementById("respuestas").innerHTML = txt_respuestas;
+						document.getElementById("pregunta").innerHTML = "<h3>" + preguntas[indice_aleatorio] + "</h3>";
+					},
+					comprobar: function () {
+						var self = this;
+						var respuesta = $("input[type=radio]:checked").val();
+		
+						if (respuesta == indicie_respuesta_correcta) {
+							app.dialog.alert('¡Respuesta correcta!', 'Respuesta Elegida');
+						} else {
+							app.dialog.alert('¡Respuesta incorrecta!', 'Respuesta Elegida');
+						}
+						self.jugar();
+					}
+				},
+				on: {
+					pageInit: function (page) {
+						var self = this;
+		
+						self.jugar();
+					}
+				}
+			}
+		</script>

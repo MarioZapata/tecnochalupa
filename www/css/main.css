@@ -1,0 +1,648 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: #111;
+}
+
+#imgPpal {
+    margin: 0 auto;
+    top: 50%;
+    left: 50%;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    width: 70%;
+}
+
+.right {
+    margin-right: 20px;
+}
+
+#btnJugador {
+    margin: 20px auto;
+    font-size: 2.5em;
+    width: 70%;
+    height: 80px;
+    padding-top: 15px;
+    border-radius: 20px;
+    box-shadow: 22px 19px 36px 1px rgba(0, 0, 0, 1);
+}
+
+#btnGritador {
+    margin: 20px auto;
+    font-size: 2.5em;
+    width: 70%;
+    height: 80px;
+    padding-top: 15px;
+    border-radius: 20px;
+    box-shadow: 22px 19px 36px 1px rgba(0, 0, 0, 1);
+}
+
+#contenedorImg {
+    width: 80%;
+    padding: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 0 auto;
+    width: 90%;
+}
+
+img {
+    display: block;
+    max-width: 90%;
+}
+
+.titulo {
+    color: white;
+    text-align: center;
+}
+
+.galeria {
+    padding: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    background-color: lightseagreen;
+}
+
+.galeria__item {
+    width: 80%;
+    cursor: pointer;
+}
+
+
+/* CELULAR */
+
+@media (min-width:360px)
+/* and (max-width: 600px) */
+
+{
+    .fondo {
+        background-image: url(../img/wheel_back2.webp);
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+    #imgPpal {
+        margin: 0 auto;
+        top: 50%;
+        left: 50%;
+        position: absolute;
+        transform: translate(-50%, -50%);
+        width: 90%;
+    }
+    .bordepunteado {
+        border: 3px solid yellow;
+    }
+    .galeria {
+        padding: 10px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        width: 90%;
+        background-color: lightseagreen;
+        list-style: none;
+        margin: 0 auto;
+    }
+    .galeria__item {
+        width: 23%;
+        margin: 3px;
+    }
+    .galeria__item img {
+        display: block;
+        max-width: 100%;
+    }
+    #botonBackRuleta {
+        width: 70%;
+        margin: 0 auto;
+        margin-top: 15px;
+        margin-bottom: 15px;
+        font-size: 1.2em;
+    }
+    #cardindicio {
+        width: 90%;
+        padding: 10px;
+        margin: 0 auto;
+        margin-top: 5px;
+        margin-bottom: 15px;
+        font-size: 1.em;
+        background-color: antiquewhite;
+    }
+    #fondoIndicio {
+        background-image: url(../img/madera2.webp);
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+    #contieneRol {
+        background-color: transparent;
+        margin: 5px;
+    }
+    #tituloElijeRol {
+        font-size: 1.5em;
+        color: yellow;
+    }
+    #contieneRol #btnJugador {
+        margin: 10px auto;
+        font-size: 1.5em;
+        width: 90%;
+        height: 50px;
+        padding-top: 0;
+        border-radius: 10px;
+        box-shadow: 22px 19px 36px 1px rgba(0, 0, 0, 1);
+    }
+    #contieneRol #btnGritador {
+        margin: 10px auto;
+        font-size: 1.5em;
+        width: 90%;
+        height: 50px;
+        padding-top: 0;
+        border-radius: 10px;
+        box-shadow: 22px 19px 36px 1px rgba(0, 0, 0, 1);
+    }
+    #ppalRuleta {
+        background-image: url(../img/fondoFeria2.webp);
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+    #btn-girar {
+        margin: 20px auto;
+        font-size: 1.5em;
+        width: 50%;
+        height: 50px;
+        padding-top: 0px;
+        border-radius: 10px;
+        box-shadow: 13px 10px 20px 1px rgba(0, 0, 0, 0.6);
+    }
+    #reset {
+        color: white;
+        background-color: rgb(10, 83, 3);
+        width: 50%;
+        height: 50px;
+        font-size: 1.5em;
+        margin-top: 20px;
+        padding-top: 0px;
+        border-radius: 10px;
+        box-shadow: 13px 10px 20px 1px rgba(0, 0, 0, 0.6);
+    }
+    #tituloReglas {
+        width: 90%;
+        margin: 0 auto;
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+    #textoReglas ol {
+        width: 80%;
+        text-align: justify;
+        font-size: 1em;
+        margin: 0 auto;
+        padding: 10px;
+    }
+    #textoPresentacion {
+        text-align: justify;
+        width: 80%;
+        margin: 0 auto;
+        font-size: 1.em;
+    }
+    #tarjetaAutor {
+        width: 90%;
+        margin: 0 auto;
+    }
+    #tituloAutor #titulo {
+        font-size: 1em;
+        text-transform: uppercase;
+    }
+    #tituloAutor #centro {
+        font-size: 1em;
+        width: 70%;
+        margin: 0 auto;
+    }
+    #tituloAutor #fila1 {
+        margin-top: 10px;
+    }
+    #fotoAutor {
+        width: 70%;
+        margin: 20px auto;
+    }
+    #fotoAutor img {
+        margin: 00px auto;
+    }
+    #fotoAutor h3 {
+        font-size: 1.2em;
+        margin-top: 20px;
+        width: 100%;
+    }
+    .imag img {
+        width: 80%;
+        margin: 0 auto;
+    }
+    #modal img {
+        margin-top: 160px;
+        width: 70%;
+        max-width: 700px;
+    }
+    .modal #modal__boton {
+        width: 35px;
+        height: 35px;
+        color: white;
+        font-weight: bold;
+        font-size: 20px;
+        font-family: monospace;
+        line-height: 35px;
+        text-align: center;
+        background: red;
+        border-radius: 50%;
+        position: absolute;
+        right: 5%;
+        top: 11%;
+        cursor: pointer;
+    }
+    #listaMenu ul li a {
+        font-size: 1.4em;
+        font-weight: bold;
+        background-color: gold;
+    }
+    #barraLat {
+        background-color: gold;
+    }
+    #paginaInicio {
+        background-color: antiquewhite;
+    }
+    #tituloNav {
+        font-size: 0.9em;
+    }
+    #fondoIndicio a {
+        margin: 20px auto;
+        font-size: 1.2em;
+        width: 60%;
+        height: 50px;
+        padding-top: 0px;
+        border-radius: 10px;
+        box-shadow: 13px 10px 20px 1px rgba(0, 0, 0, 0.6);
+    }
+    #imgPpal img {
+        margin: 0 auto;
+        top: 50%;
+        left: 50%;
+        position: absolute;
+        transform: translate(-50%, -50%);
+        max-width: 60%;
+    }
+    #contenedorImg {
+        padding: 20px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin: 0 auto;
+        width: 95%;
+        background-color: lightseagreen;
+    }
+    #contenedorImg img {
+        display: block;
+        max-width: 30%;
+        margin: 2px;
+    }
+    /* 
+    img {
+        display: block;
+        max-width: 30%;
+        margin: 3px;
+    }
+    #btn_generar {
+        width: 50%;
+        margin: 10px auto;
+    } */
+}
+
+
+/* TABLETAS */
+
+@media (min-width:768px) {
+    #fotoAutor {
+        width: 70%;
+        margin: 20px auto;
+    }
+    .bordepunteado {
+        border: 3px solid #ffff00;
+    }
+    #btn_generar {
+        width: 50%;
+        margin: 15px auto;
+        font-size: 1.5em;
+    }
+    .galeria__item {
+        width: 22%;
+        margin: 3px;
+    }
+    .galeria {
+        padding: 20px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        width: 80%;
+        margin: 0 auto;
+        background: lightseagreen;
+    }
+    #contenedorImg {
+        width: 90%;
+        padding: 0;
+        padding-top: 15px;
+        padding-bottom: 15px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin: 0 auto;
+        width: 90%;
+        background-color: lightseagreen;
+    }
+    .img-selected {
+        border: 3px solid yellow;
+        margin: 3px;
+    }
+    #tituloReglas {
+        width: 90%;
+        margin: 0 auto;
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+    #textoReglas ol {
+        width: 70%;
+        text-align: left;
+        font-size: 1.2em;
+        margin: 0 auto;
+        padding: 10px;
+    }
+}
+
+
+/*TABLETA*/
+
+@media (min-width:600px) {
+    #fondoIndicio a {
+        margin: 20px auto;
+        font-size: 1.8em;
+        width: 60%;
+        height: 60px;
+        padding-top: 5px;
+        border-radius: 10px;
+        box-shadow: 13px 10px 20px 1px rgba(0, 0, 0, 0.6);
+    }
+    #tituloNav {
+        font-size: 1.3em;
+    }
+    .modal #modal__boton {
+        width: 50px;
+        height: 50px;
+        color: white;
+        font-weight: bold;
+        font-size: 25px;
+        font-family: monospace;
+        line-height: 50px;
+        text-align: center;
+        background: red;
+        border-radius: 50%;
+        position: absolute;
+        right: 5%;
+        top: 8%;
+        cursor: pointer;
+    }
+    .modal__img {
+        margin-top: 80px;
+        width: 70%;
+        max-width: 700px;
+    }
+    #btn-girar {
+        margin: 20px auto;
+        font-size: 2.5em;
+        width: 60%;
+        height: 80px;
+        padding-top: 0px;
+        border-radius: 20px;
+        box-shadow: 13px 10px 20px 1px rgba(0, 0, 0, 0.6);
+    }
+    #reset {
+        color: white;
+        background-color: rgb(10, 83, 3);
+        width: 60%;
+        height: 80px;
+        font-size: 2.5em;
+        margin-top: 20px;
+        padding-top: 0px;
+        border-radius: 20px;
+        box-shadow: 13px 10px 20px 1px rgba(0, 0, 0, 0.6);
+    }
+    #btnJugador {
+        margin: 20px auto;
+        font-size: 2.5em;
+        width: 70%;
+        height: 80px;
+        padding-top: 15px;
+        border-radius: 20px;
+        box-shadow: 22px 19px 36px 1px rgba(0, 0, 0, 1);
+    }
+    #btnGritador {
+        margin: 20px auto;
+        font-size: 2.5em;
+        width: 70%;
+        height: 80px;
+        padding-top: 15px;
+        border-radius: 20px;
+        box-shadow: 22px 19px 36px 1px rgba(0, 0, 0, 1);
+    }
+    .aver {
+        margin-top: 20px;
+    }
+    #paginaInicio {
+        background-color: antiquewhite;
+    }
+    .imag {
+        width: 60%;
+        margin: 0 auto;
+    }
+    #contieneRol {
+        background-color: transparent;
+    }
+    #tituloElijeRol {
+        font-size: 2.5em;
+        color: yellow;
+    }
+    #cardindicio {
+        width: 90%;
+        padding: 15px;
+        margin: 0 auto;
+        margin-top: 5px;
+        margin-bottom: 15px;
+        font-size: 1.5em;
+        background-color: antiquewhite;
+    }
+    #fondoIndicio {
+        background-image: url(../img/madera2.webp);
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+    #ppalRuleta {
+        background-image: url(../img/fondoFeria2.webp);
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+    .fondo {
+        background-image: url(../img/wheel_back.webp);
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+    .bordepunteado {
+        border: 4px solid yellow;
+    }
+    #tituloReglas {
+        width: 80%;
+        margin: 0 auto;
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+    #textoReglas ol {
+        width: 80%;
+        text-align: justify;
+        font-size: 1.2em;
+        margin: 0 auto;
+        padding: 10px;
+    }
+    #listaMenu ul li a {
+        font-size: 1.4em;
+        font-weight: bold;
+        background-color: gold;
+    }
+    #barraLat {
+        background-color: gold;
+    }
+    #tituloMenu {
+        font-size: 1.3em;
+    }
+    .imgWiwili {
+        font-size: 1.3em;
+    }
+    #textoPresentacion {
+        text-align: justify;
+        width: 80%;
+        margin: 0 auto;
+        font-size: 1.2em;
+    }
+    #tarjetaAutor {
+        width: 90%;
+        margin: 0 auto;
+    }
+    #tituloAutor #titulo {
+        font-size: 1.8em;
+        text-transform: uppercase;
+    }
+    #tituloAutor #centro {
+        font-size: 1.8em;
+        width: 70%;
+        margin: 0 auto;
+    }
+    #tituloAutor #fila1 {
+        margin-top: 10px;
+    }
+    #fotoAutor {
+        width: 70%;
+        margin: 20px auto;
+    }
+    #fotoAutor h3 {
+        font-size: 2em;
+        margin-top: 20px;
+        width: 100%;
+    }
+    #btn_generar {
+        width: 50%;
+        margin: 15px auto;
+        font-size: 1.5em;
+    }
+    .img-selected {
+        border: 3px solid yellow;
+        margin: 3px;
+    }
+    #contenedorImg {
+        width: 90%;
+        padding: 0;
+        padding-top: 15px;
+        padding-bottom: 15px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin: 0 auto;
+        width: 90%;
+        background-color: lightseagreen;
+    }
+    #contenedorImg img {
+        margin: 5px;
+    }
+    .galeria__item {
+        width: 22%;
+        margin: 3px;
+        /*         width: 90%;
+        margin: 0 auto; */
+    }
+    img {
+        display: block;
+        max-width: 100%;
+    }
+    .galeria {
+        padding: 20px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        width: 90%;
+        margin: 0 auto;
+        background: lightseagreen;
+    }
+}
+
+@media (min-width:1024px) {
+    .galeria__item {
+        width: 20%;
+    }
+}
+
+.aver {
+    margin-top: 20px;
+}
+
+.modal {
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.9);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 0;
+    left: 0;
+}
+
+.modal__img {
+    margin-top: 80px;
+    width: 70%;
+    max-width: 700px;
+}
+
+.modal__boton {
+    width: 50px;
+    height: 50px;
+    color: white;
+    font-weight: bold;
+    font-size: 25px;
+    font-family: monospace;
+    line-height: 50px;
+    text-align: center;
+    background: red;
+    border-radius: 50%;
+    position: absolute;
+    right: 5%;
+    top: 8%;
+    cursor: pointer;
+}
+
+ul .img-selected {
+    border: 3px solid yellow;
+    margin: 3px;
+}

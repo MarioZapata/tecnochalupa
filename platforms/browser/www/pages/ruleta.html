@@ -1,0 +1,110 @@
+<template>
+	<div class="page">
+		<div class="navbar">
+			<div class="navbar-inner sliding">
+				<div class="left">
+					<a href="#" class="link back">
+						<link rel="stylesheet" href="css/estilo.css">
+						<i class="icon icon-back"></i>
+						<span class="if-not-md">Back</span>
+					</a>
+				</div>
+				<div class="title">Juego de Ruleta</div>
+			</div>
+		</div>
+		<div class="page-content" style="background-image: url(img/PhotoGrid_1575734348550.png)" > 
+
+			<center>
+				<button id="btn-girar" @click="rollWell">Girar</button>
+				<br>
+				<br>
+				<canvas id="ruleta" width="500" height="500"></canvas>
+		
+			</center>
+			
+		
+		</div>
+
+	</div>
+
+</template>
+<script>
+	return {
+		data: function () {
+			return {
+				theWheel: null
+			}
+		},
+		methods: {
+			rollWell: function () {
+				var self = this;
+				var well = this.theWheel;
+
+				well.startAnimation();
+			}
+		},
+		on: {
+			pageInit: function (page) {
+				var self = this;
+				Urls = ['/geografia/', '/costumbres/', '/historia/', '/gastronomia/','/cultura/'];
+				let theWheel = new Winwheel({
+					'canvasId': 'ruleta',
+					'outerRadius': 180,
+					'numSegments': 5,
+					'segments':
+						[
+							{ 'fillStyle': '#eae56f', 'text': 'Geografia', 'index': 0 },
+							{ 'fillStyle': '#89f26e', 'text': 'Costumbres', 'index': 1 },
+							{ 'fillStyle': '#7de6ef', 'text': 'Historia', 'index': 2 },
+							{ 'fillStyle': '#e7706f', 'text': 'Gastronomia', 'index': 3 },
+							{ 'fillStyle': '#e56f09', 'text': 'Cultura', 'index': 4 },
+						],
+					'animation':
+					{
+						'type': 'spinToStop',
+						'duration': 5,
+						'spins': 5,
+						'callbackFinished': redirection,
+						'callbackAfter': indicador
+					},
+					pins:
+					{
+						'number': 12,
+						'outerRadius': 5,
+						'margin': 10,
+						'fillStyle': 'black',
+						'strokeStyle': '#ffffff'
+					},
+				});
+
+				indicador();
+				function indicador() {
+					var ctx = theWheel.ctx;
+					ctx.strokeStyle = '#ffffff';
+					ctx.fillStyle = 'black';
+					ctx.lineWidth = 2;
+					ctx.beginPath();
+					ctx.moveTo(220, 0);
+					ctx.lineTo(290, 0);
+					ctx.lineTo(250, 65);
+					ctx.lineTo(210, 0);
+					ctx.stroke();
+					ctx.fill();
+				}
+				self.theWheel = theWheel;
+
+				function redirection(indicatedSegment) {
+					console.log(indicatedSegment);
+					setTimeout(function(){
+						app.views.main.router.navigate({ url: Urls[indicatedSegment.index] })
+					}, 1000);
+
+				}
+					}
+					
+				}
+			}
+		
+
+</script>
+

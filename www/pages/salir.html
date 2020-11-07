@@ -1,0 +1,71 @@
+<template>
+<div class="page">
+    <div class="navbar">
+        <div class="navbar-inner sliding">
+            <div class="left">
+                <a href="#" class="link back">
+                    <link rel="stylesheet" href="css/estilo.css">
+                    <i class="icon icon-back"></i>
+                    <span class="if-not-md">Back</span>
+                </a>
+            </div>
+            <div class="title" id="tituloNav">TECNOCHALUPA VOCACIONAL</div>
+            <div class="right">
+                <a href="/" class="homeppal">
+                    <link rel="stylesheet" href="css/estilo.css">
+                    <i class="f7-icons">house</i>
+                    <span>INICIO</span>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="page-content" id="fondoIndicio">
+        <br>
+        <div class="card demo-card-header-pic" id="tarjetaAutor">
+            <h2>¿Salir de App?</h2>
+            <div id="fotoAutor">
+                <img src="img/iconoChalupa.webp" alt="">
+                <h3>¿Estás Seguro que Quieres Salir?</h3>
+            </div>
+            <div class="card-content card-content-padding" id="tituloAutor">
+                <a href="#" class="button button-fill button-large "  @click="salir" id="btnGritador">SALIR</a>
+
+                <a href="/" class="button button-fill button-large" id="btnJugador" >CANCELAR</a>
+                 
+            </div>
+
+        </div>
+    </div>
+
+
+    </div>
+</div>
+</template>
+
+<script>
+    return {
+        data: function() {
+            return {
+
+            }
+        },
+        methods: {
+
+            salir: function() {
+                app.dialog.confirm('¿Quiere salir del programa?', 'Cerrar App', function() {
+                    navigator.app.clearHistory();
+                    navigator.app.exitApp();
+                });
+            }
+        },
+        on: {
+            pageInit: function(page) {
+                var self = this;
+
+                /* self.generar(); */
+
+
+            }
+        }
+    }
+</script>

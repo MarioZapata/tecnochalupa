@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#2196f3">
+  <meta http-equiv="Content-Security-Policy" content="default-src * 'self' 'unsafe-inline' 'unsafe-eval' data: gap:">
+  <title>RULETA DEL SABER</title>
+  <link rel="stylesheet" href="framework7/css/framework7.bundle.min.css">
+  <link rel="stylesheet" href="css/app.css">
+  <link rel="stylesheet" href="css/estilo2.css">
+  
+  <link rel="apple-touch-icon" href="img/f7-icon-square.png">
+  <link rel="icon" href="img/beach.jpg">
+  <script type="text/javascript" src="js/Winwheel.min.js"></script>
+  <script type="text/javascript" src="js/TweenMax.min.js"></script>
+</head>
+<body>
+  <div id="app">
+    <div class="statusbar"></div>
+    <div class="panel panel-left panel-cover panel-resizable">
+      <div class="page">
+        <div class="page-content">
+          <div class="block searchbar-hide-on-search">
+            <div class="imgWiwili">
+              <img src="img/ruletaIcono.png" style="width: 100%", "center">
+
+            </div>
+          </div>
+          <div class="block-title">Menú Principal</div>
+          <div class="list links-list">
+            <ul>
+              <li>
+                <a href="/ruleta/" class="panel-close">Jugar</a>
+              </li>
+              <li>
+                <a href="/acerca/" class="panel-close">Acerca de</a>
+              </li>
+              <li>
+                <a href="/Galeria/" class="panel-close">Galeria</a>
+              </li>
+              <li>
+                <a href="/autores/" class="panel-close">Desarrolladores</a>
+              </li>
+            </ul>
+          </div>
+<!--           <div class="block">
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse faucibus mauris leo, eu bibendum neque congue non. Ut leo mauris, eleifend eu commodo a, egestas ac urna. Maecenas in lacus faucibus, viverra ipsum pulvinar, molestie arcu. Etiam lacinia venenatis dignissim. Suspendisse non nisl semper tellus malesuada suscipit eu et eros. Nulla eu enim quis quam elementum vulputate. Mauris ornare consequat nunc viverra pellentesque. Aenean semper eu massa sit amet aliquam. Integer et neque sed libero mollis elementum at vitae ligula. Vestibulum pharetra sed libero sed porttitor. Suspendisse a faucibus lectus.</p>
+            <p>Duis ut mauris sollicitudin, venenatis nisi sed, luctus ligula. Phasellus blandit nisl ut lorem semper pharetra. Nullam tortor nibh, suscipit in consequat vel, feugiat sed quam. Nam risus libero, auctor vel tristique ac, malesuada ut ante. Sed molestie, est in eleifend sagittis, leo tortor ullamcorper erat, at vulputate eros sapien nec libero. Mauris dapibus laoreet nibh quis bibendum. Fusce dolor sem, suscipit in iaculis id, pharetra at urna. Pellentesque tempor congue massa quis faucibus. Vestibulum nunc eros, convallis blandit dui sit amet, gravida adipiscing libero.</p>
+          </div> -->
+        </div>
+      </div>
+    </div>
+ <!--    <div class="panel panel-right panel-reveal panel-resizable">
+      <div class="view view-init view-right" name="right" data-url="/">
+        <div class="page">
+          <div class="navbar">
+            <div class="navbar-inner sliding">
+              <div class="title">Right Panel</div>
+            </div>
+          </div>
+          <div class="page-content">
+            <div class="block">
+              <p>This is a right side panel. You can close it by clicking outsite or on this link: <a href="#" class="panel-close">close me</a>. You can put here anything, even another isolated view.</p>
+            </div>
+            <div class="block-title">Panel Navigation</div>
+            <div class="list links-list">
+              <ul>
+                <li><a href="/panel-right-1/">Right panel page 1</a></li>
+                <li><a href="/panel-right-2/">Right panel page 2</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div> -->
+    <div class="view view-main view-init safe-areas" data-master-detail-breakpoint="800" data-url="/">
+      <div class="page">
+        <div class="navbar">
+          <div class="navbar-inner">
+            <div class="left">
+              <a href="#" class="link icon-only panel-open" data-panel="left">
+                <i class="icon f7-icons if-not-md">menu</i>
+                <i class="icon material-icons md-only">menu</i>
+              </a>
+            </div>
+            <div class="title sliding">Ruleta del Saber</div>
+            <div class="right">
+              <a class="link icon-only searchbar-enable" data-searchbar=".searchbar-components">
+                <i class="icon f7-icons if-not-md">search</i>
+                <i class="icon material-icons md-only">search</i>
+              </a>
+            </div>
+            <form data-search-container=".components-list" data-search-in="a" class="searchbar searchbar-expandable searchbar-components searchbar-init">
+              <div class="searchbar-inner">
+                <div class="searchbar-input-wrap">
+                  <input type="search" placeholder="Search components"/>
+                  <i class="searchbar-icon"></i>
+                  <span class="input-clear-button"></span>
+                </div>
+                <span class="searchbar-disable-button if-not-aurora">Cancel</span>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div>
+      <br> 
+      <br>  
+         <h1>Tips de conocimiento</h1>
+         <div class="card card-expandable">
+            <div class="card-content">
+              <div class="bg-color-gray" style="height: 300px">
+                <div class="card-header text-color-white display-block">
+                  Gastronomia de Wiwilí, N.S.
+                  <br>
+                  <small style="opacity: 0.7">¿Sábes cuáles son los platillos tradicionales de Wiwilí, N.S.?</small>
+                </div>
+                <a href="#" class="link card-close card-opened-fade-in color-white"
+                  style="position: absolute; right: 15px; top: 15px">
+                  <i class="icon f7-icons">close_round_fill</i>
+                </a>
+              </div>
+              <div class="card-content-padding">
+                <p>Los platillos tradicionales locales son los chilotes en guisos, tortillas, tamal pisque, tamal dulce, sopa de albóndigas, sopa de cuajada, güirilas, sopa de frijoles, sopa de frijoles con pellejo de cerdo, empanadas revueltas o rellenas, carne enchorizada, picadillo.
+
+                  Así como cabeza de pozol, arroz de maíz, casamiento, caure o nacarigüe, guiso de frijoles tiernos, nacatamales, indio viejo, gallo pinto y carnes asadas.</p>
+                ...
+              </div>
+            </div>
+          </div>
+          <div class="card card-expandable">
+              <div class="card-content">
+                <div class="bg-color-pink" style="height: 300px">
+                  <div class="card-header text-color-white display-block">
+                    Historia de Wiwilí, N.S.
+                    <br>
+                    <small style="opacity: 0.7">Conoce un poco de la historia de Wiwili,N.S.</small>
+                  </div>
+                  <a href="#" class="link card-close card-opened-fade-in color-white"
+                    style="position: absolute; right: 15px; top: 15px">
+                    <i class="icon f7-icons">close_round_fill</i>
+                  </a>
+                </div>
+                <div class="card-content-padding">
+                  <p>Wiwilí es una palabra de origen miskito y significa "Zompopo de Agua". El primer poblado fue fundado en 1920; constituido por el matrimonio Eduardo Palma y Bárbara de Palma, y el Sr. Clemente Calderón; quienes se asentaron en las riberas del Río Coco; posteriormente se fue poblando con inmigrantes de otros territorios del país que venían en busca de trabajo en las empresas madereras, de caucho y las minas de oro y plata.</p>
+                  ...
+                </div>
+              </div>
+            </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="framework7/js/framework7.bundle.min.js"></script>
+  <script src="js/routes.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+	
+</script>
+  </body>
+</html>

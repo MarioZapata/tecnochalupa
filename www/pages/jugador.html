@@ -1,0 +1,73 @@
+<template></template>
+<div class="page">
+    <div class="navbar">
+        <div class="navbar-inner sliding">
+            <div class="left">
+                <a href="#" class="link back">
+                    <link rel="stylesheet" href="css/estilo.css">
+                    <i class="icon icon-back"></i>
+                    <span class="if-not-md">Back</span>
+                </a>
+            </div>
+            <div class="title" id="tituloNav">TECNOCHALUPA VOCACIONAL</div>
+            <div class="right">
+                <a href="/" class="homeppal">
+                    <link rel="stylesheet" href="css/estilo.css">
+                    <i class="f7-icons">house</i>
+                    <span>INICIO</span>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="page-content" id="fondoIndicio">
+
+        <a href="#" class="btnVolver button button-large button-raised button-fill " id="btn_generar">Nuevo Juego</a>
+
+        <div id="contenedorImg"></div>
+
+
+    </div>
+</div>
+</template>
+
+<script>
+    return {
+        data: function() {
+            return {
+
+            }
+        },
+        methods: {
+            generar: function() {
+                var self = this;
+                var images = [];
+                var btnGenerar = document.getElementById('btn_generar');
+                for (var i = 1; i < 22; i++) {
+                    images.push('img/' + i + '.webp');
+                }
+
+                var chalupa = new Chalupa({
+                    images: images,
+                    containerId: 'contenedorImg'
+                });
+                chalupa.click(image => {
+                    chalupa.addClass(image.id, 'bordepunteado')
+                    console.log(image);
+                });
+
+                btnGenerar.addEventListener('click', event => {
+                    chalupa.create();
+                });
+            }
+        },
+        on: {
+            pageInit: function(page) {
+                var self = this;
+
+                self.generar();
+
+
+            }
+        }
+    }
+</script>

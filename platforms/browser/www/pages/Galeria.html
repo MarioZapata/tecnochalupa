@@ -1,0 +1,163 @@
+<template>
+  <div class="page">
+    <div class="navbar">
+      <div class="navbar-bg"></div>
+      <div class="navbar-inner sliding">
+        <div class="left">
+          <a href="#" class="link back">
+            <i class="icon icon-back"></i>
+            <span class="if-not-md">Back</span>
+          </a>
+        </div>
+        <div class="title">Galeria</div>
+      </div>
+    </div>
+    <div class="page-content">
+      <div class="block block-strong">
+        <h3>PUEDES DISFRUTAR DE NUESTRA BELLA GALERIA DE FOTOS</h3>
+        <div class="row">
+          <div class="col-50 medium-25" id="geoPort">
+            <img src="img/3.jpg" alt="">
+            <a href="#" class="button button-fill" @click="openStandaloneDarkGeografia">Geografia</a></div>
+
+          <div class="col-50 medium-25" id="costumPort">
+            <img src="img/baile.jpg" alt="">
+            <a href="#" class="button button-fill" @click="openStandaloneDarkCostumbres">Costumbres</a></div>
+
+          
+
+          <div class="col-50 medium-25" id="gastroPort">
+              <img src="img/wirilas.jpg" alt="">
+            <a href="#" class="button button-fill" @click="openStandaloneDarkGastronomia">Gastronomia</a></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+<script>
+  return {
+    data: function () {
+      return {
+        photosGeografia: [
+          {
+            url: 'img/3.jpg',
+            caption: 'wiwili nueva segovia'
+          },
+         /*  'http://placekitten.com/1024/1024',
+          'img/lock.jpg', */
+          {
+            url: 'img/iglesia.jpg',
+            caption: 'wiwili nueva segovia'
+          },
+          {
+            url: 'img/pueblo.jpg',
+            caption: 'wiwili nueva segovia'
+          }
+        ],
+        photosCostumbres: [
+          {
+            url: 'img/baile.jpg',
+            caption: 'wiwili nueva segovia'
+          },
+  /*         'http://placekitten.com/1024/1024',
+          'img/lock.jpg', */
+          {
+            url: 'img/purisima.jpg',
+            caption: 'wiwili nueva segovias'
+          },
+          {
+            url: 'img/2.jpg',
+            caption: 'wiwili nueva segovia'
+          }
+        ],
+       
+        photosGastronomia: [
+          {
+            url: 'img/wirilas.jpg',
+            caption: 'wiwili nueva segovia'
+          },
+  /*         'http://placekitten.com/1024/1024',
+          'img/lock.jpg', */
+          {
+            url: 'img/4.jpg',
+            caption: 'wiwili nueva segovia'
+          },
+          {
+            url: 'img/ornados.jpg',
+            caption: 'Wiwili nueva segovia'
+          }
+        ],
+      }
+    },
+    methods: {
+      openStandalone: function () {
+        const self = this;
+        self.standalone.open();
+      },
+      openPopup: function () {
+        const self = this;
+        self.popup.open();
+      },
+      openPage: function () {
+        const self = this;
+        self.page.open();
+      },
+      openStandaloneDarkGeografia: function () {
+        const self = this;
+        self.openStandaloneDarkGeografia.open();
+      },
+      openStandaloneDarkCostumbres: function () {
+        const self = this;
+        self.openStandaloneDarkCostumbres.open();
+      },
+     
+      openStandaloneDarkGastronomia: function () {
+        const self = this;
+        self.openStandaloneDarkGastronomia.open();
+      },
+      openPopupDark: function () {
+        const self = this;
+        self.popupDark.open();
+      },
+      openPageDark: function () {
+        const self = this;
+        self.pageDark.open();
+      },
+    },
+    on: {
+      pageInit: function () {
+        const self = this;
+        // Create PBs when page init
+        self.openStandaloneDarkCostumbres = self.$app.photoBrowser.create({
+          photos: self.photosCostumbres,
+          theme: 'dark',
+        });
+        self.openStandaloneDarkGeografia = self.$app.photoBrowser.create({
+          photos: self.photosGeografia,
+          theme: 'dark',
+        });
+        
+        self.openStandaloneDarkGastronomia = self.$app.photoBrowser.create({
+          photos: self.photosGastronomia,
+          theme: 'dark',
+        });
+
+
+      },
+      pageBeforeRemove: function () {
+        const self = this;
+        // Destroy PBs on page remove
+/*         self.standalone.destroy(); */
+        self.openStandaloneDarkGeografia.destroy();
+        self.openStandaloneDarkCostumbres.destroy();
+        
+        self.openStandaloneDarkGastronomia.destroy();
+        self.popup.destroy();
+        self.page.destroy();
+        self.standaloneDark.destroy();
+        self.popupDark.destroy();
+        self.pageDark.destroy();
+      },
+    }
+  };
+</script>
