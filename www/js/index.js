@@ -8,7 +8,8 @@ chalupa.click(image => {
     console.log(image);
 });
 
-btnGenerar.addEventListener('click', event => {
-    chalupa.create();
-
-});
+if(btnGenerar){
+    btnGenerar.addEventListener('click', event => {
+        chalupa.create();
+     });
+}

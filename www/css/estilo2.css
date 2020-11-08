@@ -45,3 +45,7 @@
 .demo-card-header-pic .card-content-padding .data{
     color: #8e8e93;
 }
+
+.fab.red>a {
+    background-color: var(--f7-color-red-shade) !important;
+}
