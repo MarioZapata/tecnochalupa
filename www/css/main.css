@@ -94,7 +94,10 @@ img {
         width: 90%;
     }
     .bordepunteado {
-        border: 3px solid yellow;
+        border: 3px solid red !important;
+    }
+    .bordeOk {
+        border: 3px solid rgb(11, 123, 175) !important;
     }
     .galeria {
         padding: 10px;
@@ -302,6 +305,11 @@ img {
         display: block;
         max-width: 30%;
         margin: 2px;
+        border-radius: 10px;
+        box-shadow: 2px 6px 7px 2px #6464649c;
+        padding: 3px;
+        background: white;
+        border: 1px solid #ccc;
     }
     /* 
     img {
@@ -324,7 +332,10 @@ img {
         margin: 20px auto;
     }
     .bordepunteado {
-        border: 3px solid #ffff00;
+        border: 3px solid red !important;
+    }
+    .bordeOk {
+        border: 3px solid rgb(11, 123, 175) !important;
     }
     #btn_generar {
         width: 50%;
@@ -492,7 +503,10 @@ img {
         background-repeat: no-repeat;
     }
     .bordepunteado {
-        border: 4px solid yellow;
+        border: 4px solid red !important;
+    }
+     .bordeOk {
+        border: 3px solid rgb(11, 123, 175) !important;
     }
     #tituloReglas {
         width: 80%;
