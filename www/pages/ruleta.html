@@ -20,48 +20,47 @@
 			</div>
         </div>
 
-        
-        <div class="toolbar toolbar-bottom fab-morph-target">
-            <div class="toolbar-inner">
-              <!-- Each Toolbar link will close FAB (morph back) on click -->
-              <a class="link fab-close">Link 1</a>
-              <a class="link fab-close">Link 2</a>
-              <a class="link fab-close">Link 3</a>
-            </div>
-          </div>
-
-
-          <div class="fab fab-left-bottom fab-morph color-blue" data-morph-to=".toolbar">
-            <a href="#">
-              <!-- Icons For iOS Theme -->
-              <i class="icon f7-icons if-not-md">plus</i>
-              <i class="icon f7-icons if-not-md">xmark</i>
-              <!-- Icons For MD Theme -->
-              <i class="icon material-icons md-only">add</i>
-              <i class="icon material-icons md-only">close</i>
-            </a>
-          </div>
-
-
 		<div class="page-content" id="ppalRuleta">
-
 			<center>
-				<button id="btn-girar" @click="rollWell" class="button button-fill button-large">Girar</button>
-				<br>
+
+                <div class="block">
+                    <div class="row">
+                      <div class="col"><button id="btnCreate" @click="startGame" class="button button-fill button-large">Empezar a jugar</button></div>
+                      <div class="col"><button id="btn_girar" @click="rollWell" class="button button-fill button-large">Girar</button></div>
+                    </div>
+                </div>
+				
                 <br>
                 <div class="fondo" width="438" height="582" aling="center" valign="center">
                     <canvas id="ruleta" width="500" height="500"></canvas>
-
                 </div>
 
 				<div>
 					<a href="#" id="reset" class="button button-large button-raised" @click="resetWheel">Reset</a>
 				</div>
-			</center>
+            </center>
+            
+            <div class="card card-outline" style="margin-bottom: 100px;">
+                <div class="card-header">Tablero de resultados</div>
+                <div class="card-content card-content-padding">
 
+                </div>
+                <div class="card-footer" id="code">Código del juego</div>
+              </div>
+
+             <!-- Swipe to close sheet -->
+            <div class="sheet-modal my-sheet-swipe-to-close" style="height:auto; --f7-sheet-bg-color: #fff;">
+                <div class="sheet-modal-inner">
+                <div class="page-content">
+                    <div class="block-title block-title-large" id="question"></div>
+                    <div class="block">
+                    <h1 style="font-size: 6em;"><b id="code"> </b></h1>
+                    <p id="question" style="font-size: 2em;"></p>
+                    </div>
+                </div>
+                </div>
+            </div>
 		</div>
-
-
     </div>
     
 
@@ -96,16 +95,42 @@
                 theWheel.stopAnimation(false); // Stop the animation, false as param so does not call callback function.
                 theWheel.rotationAngle = 0; // Re-set the wheel angle to 0 degrees.
                 theWheel.draw(); // Call draw to render changes to the wheel.
-
                 wheelSpinning = false; // Reset to false to power buttons and spin can be clicked again.
-            }
+            },
+            
+            startGame : function(){
+                app.dialog.prompt('Nombre del profesor/Juego', function (nombre) {
+                    let loader = app.dialog.progress();
+                    app.request.promise.post(url + '/games',
+                        {nombre: nombre})
+                        .then(function (res) {
+                            data = JSON.parse(res);
+                            loader.close();
 
+                            $("b#code,div#code").html(data.game.code);
+                            $("p#question, div#question").html(data.game.nombre);
+
+                            /*Guardar el id del juego*/
+                            game_id = data.game.id;
+
+                            let alerta = app.sheet.create({
+                                    el: '.my-sheet-swipe-to-close',
+                                    swipeToClose: true,
+                                    backdrop: true,
+                            });
+                            alerta.open();
+                        })
+                        .catch(function (err) {
+                            console.log(err.xhr)
+                            console.log(err.status)
+                            console.log(err.message)
+                        });
+                })
+            }
         },
         on: {
             pageInit: function(page) {
                 var self = this;
-
-
                 Urls = ['/1/', '/2/', '/3/', '/4/', '/5/', '/6/', '/7/', '/8/', '/9/', '/10/', '/11/', '/12/',
                     '/13/', '/14/', '/15/', '/16/', '/17/', '/18/', '/19/', '/20/', '/21/'
                 ];
@@ -248,16 +273,37 @@
                 self.theWheel = theWheel;
 
                 function redirection(indicatedSegment) {
-                    console.log(indicatedSegment);
-                    //deleteSegment(indicatedSegment);
+
+                    let loader = app.dialog.progress();
                     setTimeout(function() {
-                        app.views.main.router.navigate({
-                            url: Urls[indicatedSegment.index]
-                        })
+                        let id = parseInt(indicatedSegment.index) + 1;
+                            app.request.promise.get(url + '/questions/'+id  , 
+                                {
+                                game_id, prev_challenge
+                            })
+                            .then(function (res) {
+                                data = JSON.parse(res);
+                                loader.close();
+                                //$("#code").html(data.id);
+                                //$("#question").empty().append(data.nombre);
+                                prev_challenge = data.prev_challenge;
+                                let question = app.dialog.alert(data.question.nombre, 'Pregunta!', () => {
+                                    $("#reset").trigger("click");
+                                /*let alerta = app.sheet.create({
+                                        el: '.my-sheet-swipe-to-close',
+                                        swipeToClose: true,
+                                        backdrop: true,
+                                });
+                                alerta.open();*/
+                                });
+                            })
+                            .catch(function (err) {
+                                console.log(err.xhr)
+                                console.log(err.status)
+                                console.log(err.message)
+                            })                        
                     }, 500);
-
                 }
-
                 function deleteSegment(indicatedSegment) {
                     //alert("You have won " + indicatedSegment.text);
                     theWheel.deleteSegment(indicatedSegment.index);

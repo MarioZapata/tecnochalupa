@@ -21,52 +21,151 @@
     </div>
     <div class="page-content" id="fondoIndicio">
 
-        <a href="#" class="btnVolver button button-large button-raised button-fill " id="btn_generar">Nuevo Juego</a>
+        <div class="block">
+            <div class="row">
+                <div class="col-50"><a href="#" class="btnVolver button button-large button-raised button-fill"
+                        @click="join" id="btn_generar">Unirse a un juego</a></div>
+                <div class="col-50"><a id="gameConnected" class="button button-fill button-large">Jugador</a></div>
+            </div>
+            <div class="row info" style="display: none;">
+                <div class="col-100">
+                    <div class="block block-strong">
+                        <div class="chip">
+                            <div class="chip-label">Profesor / Juego: <strong id="teacher"></strong> </div>
+                        </div>
+                        <div class="chip color-red">
+                            <div class="chip-label">Puntuacion: <strong id="score_est"></strong></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
 
         <div id="contenedorImg"></div>
-
-
     </div>
 </div>
 </template>
 
 <script>
     return {
-        data: function() {
+        data: function () {
             return {
 
             }
         },
         methods: {
-            generar: function() {
+            getQuestion : function (q,w){
+                let self = this;
+                app.request.promise.get(url + '/questions/'+q+'/active')
+                        .then(function (res) {  
+                                      
+                                let data = JSON.parse(res);                         
+                                    var images = [];                                               
+                                    for (var i = 1; i < 22; i++) {
+                                        images.push('img/' + i + '.webp');
+                                    }
+
+                                    var chalupa = new Chalupa({
+                                        images: images,
+                                        containerId: 'contenedorImg'
+                                    });
+
+                                    chalupa.click(image => {
+
+                                        
+
+                                        if(image.id === data.answer){
+                                            chalupa.addClass(image.id, 'bordeOk')
+                                            //Enviar resultados positivos
+                                            self.sendData(1);
+                                        }else{
+                                            chalupa.addClass(image.id, 'bordepunteado')
+                                            self.sendData(0);
+                                            
+                                            /*
+                                            let waiting = app.dialog.progress('Esperando la chalupa');
+                                                preloader = setInterval(() => {
+                                                //Cargar la pregunta activa
+                                                self.getQuestion(game_id, waiting )
+                                            }, 1000);
+                                            */
+
+                                        }
+
+                                    });
+
+                                    w.close();
+
+                                    chalupa.create();
+                                    clearInterval(preloader);
+
+                        }).catch(function (err) {
+                            if (err == 404) {
+                                app.dialog.alert('No hay preguntas activas para el juego')
+                            }
+                            console.log(err.xhr)
+                            console.log(err.status)
+                            console.log(err.message)
+                        });
+            },
+            join: function () {
+                let self = this;
+                app.dialog.login('Ingrese los datos del juego', function (player, code) {
+                    let loader = app.dialog.progress();
+                    app.request.promise.post(url + '/scores',
+                        { code: code, player: player })
+                        .then(function (res) {
+                            data = JSON.parse(res);
+                            loader.close();
+                            /*Crear ruleta*/
+                            $(".info").css("display", "block")
+                            $("#gameConnected").text(data.game.code)
+                            $("#teacher").text(data.game.nombre)
+                            $("#score_est").text(data.score.score)
+                            game_id = data.score.game_id;
+                            
+                            //Esperar por preguntas
+                            setTimeout(() => {
+                                let waiting = app.dialog.progress('Esperando la chalupa');
+                                /** 
+                                * Buscar preguntas en el servidor
+                                **/
+                              preloader = setInterval(() => {
+                                   //Cargar la pregunta activa
+                                   self.getQuestion(game_id, waiting )
+                               }, 1000);
+
+                            },500)
+                            
+                        })
+                        .catch(function (err) {
+                            if (err == 400) {
+                                app.dialog.alert('El codigo debe tener 6 caracteres de longitud')
+                                loader.close();
+                            }
+                            if (err == 404) {
+                                app.dialog.alert('El codigo escrito no exìste')
+                                loader.close();
+                            }
+
+                            console.log(err)
+                            console.log(err.xhr)
+                            console.log(err.status)
+                            console.log(err.message)
+                        });
+                })
+            },
+
+            generar: function () {
                 var self = this;
-                var images = [];
-                var btnGenerar = document.getElementById('btn_generar');
-                for (var i = 1; i < 22; i++) {
-                    images.push('img/' + i + '.webp');
-                }
-
-                var chalupa = new Chalupa({
-                    images: images,
-                    containerId: 'contenedorImg'
-                });
-                chalupa.click(image => {
-                    chalupa.addClass(image.id, 'bordepunteado')
-                    console.log(image);
-                });
-
-                btnGenerar.addEventListener('click', event => {
-                    chalupa.create();
-                });
+                
             }
         },
         on: {
-            pageInit: function(page) {
+            pageInit: function (page) {
                 var self = this;
-
-                self.generar();
-
-
+                //self.generar();
             }
         }
     }

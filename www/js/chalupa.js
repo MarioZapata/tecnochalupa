@@ -1,4 +1,5 @@
 class Chalupa {
+    
     constructor(config) {
         this.images = config.images;
         this.contenedorImg = document.getElementById(config.containerId);
@@ -26,9 +27,16 @@ class Chalupa {
         for (let i in images) {
             let image = new Image();
             image.src = images[i];
-            image.id = 'i' + (i + 1);
+
+            let parts = images[i].split("img/");
+            let num = parts[1].split('.');
+
+
+            image.id = 'i' + num[0];
             image.addEventListener('click', e => {
                 this.fx(image);
+
+
             });
             this.contenedorImg.append(image);
         }
