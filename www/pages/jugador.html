@@ -38,6 +38,11 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-100" style="margin-top: -35px;">
+                    <div class="block block-strong">
+                        <p id="lbl_question"></p>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -60,7 +65,9 @@
                 app.request.promise.get(url + '/questions/'+q+'/active')
                         .then(function (res) {  
                                       
-                                let data = JSON.parse(res);                         
+                                let data = JSON.parse(res);   
+                                question_id = data.question_id;   
+                                $("#lbl_question").html('').html(data.question_text)                   
                                     var images = [];                                               
                                     for (var i = 1; i < 22; i++) {
                                         images.push('img/' + i + '.webp');
@@ -71,26 +78,18 @@
                                         containerId: 'contenedorImg'
                                     });
 
-                                    chalupa.click(image => {
-
-                                        
+                                    chalupa.click(image => {                                      
 
                                         if(image.id === data.answer){
                                             chalupa.addClass(image.id, 'bordeOk')
                                             //Enviar resultados positivos
                                             self.sendData(1);
+
+                                            
                                         }else{
                                             chalupa.addClass(image.id, 'bordepunteado')
                                             self.sendData(0);
                                             
-                                            /*
-                                            let waiting = app.dialog.progress('Esperando la chalupa');
-                                                preloader = setInterval(() => {
-                                                //Cargar la pregunta activa
-                                                self.getQuestion(game_id, waiting )
-                                            }, 1000);
-                                            */
-
                                         }
 
                                     });
@@ -109,6 +108,16 @@
                             console.log(err.message)
                         });
             },
+            reloadGame : function (){
+                let self = this;
+                $("#contenedorImg").html("");
+               let waiting = app.dialog.progress('Esperando la chalupa');
+                        preloader = setInterval(() => {
+                        //Cargar la pregunta activa
+                        self.getQuestion(game_id, waiting )
+                }, 1000);
+                    
+            },
             join: function () {
                 let self = this;
                 app.dialog.login('Ingrese los datos del juego', function (player, code) {
@@ -121,9 +130,10 @@
                             /*Crear ruleta*/
                             $(".info").css("display", "block")
                             $("#gameConnected").text(data.game.code)
-                            $("#teacher").text(data.game.nombre)
-                            $("#score_est").text(data.score.score)
+                            $("#teacher").html(data.game.nombre)
+                            $("#score_est").html(data.score.score)
                             game_id = data.score.game_id;
+                            score_id = data.score.id;
                             
                             //Esperar por preguntas
                             setTimeout(() => {
@@ -157,10 +167,25 @@
                 })
             },
 
-            generar: function () {
+            sendData: function (score) {
                 var self = this;
-                
-            }
+                app.request({
+                    url: url + '/scores/'+score_id,
+                    data: {score, question_id },
+                    dataType: 'json',
+                    contentType: "application/json",
+                    method: 'PUT',
+                    
+                    success: function( res, status, xhr) {
+                        console.log(res)
+                        $("#score_est").html(res.game.score);
+                        setTimeout(self.reloadGame(),800);    
+                    },
+                    error : function (xhr, status){
+
+                    }
+            });
+        },
         },
         on: {
             pageInit: function (page) {

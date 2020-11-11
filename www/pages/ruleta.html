@@ -43,6 +43,11 @@
             <div class="card card-outline" style="margin-bottom: 100px;">
                 <div class="card-header">Tablero de resultados</div>
                 <div class="card-content card-content-padding">
+                    <div class="list">
+                        <ul id="online_players">
+
+                        </ul>
+                    </div>
 
                 </div>
                 <div class="card-footer" id="code">Código del juego</div>
@@ -77,9 +82,7 @@
                 var self = this;
                 var well = this.theWheel;
                 audioPrueba.play();
-
                 well.startAnimation();
-
             },
             playMusic: function() {
                 var self = this;
@@ -113,6 +116,34 @@
                             /*Guardar el id del juego*/
                             game_id = data.game.id;
 
+                            //Cargar lista de usuarios conectados
+                            let gameLive = setInterval(() => {
+                                app.request.promise.get(url + '/scores/'+game_id+'/online', {})
+                            .then((res) => {
+                                let data = JSON.parse(res);
+                                console.log(data)
+                                if(data.players.length){
+                                    let onlinePlayers = '';
+                                    for(let a =0;a<data.players.length;a++){
+                                        console.log(a)
+                                        onlinePlayers += `
+                                        <li>
+                                            <div class="item-content">
+                                                <div class="item-inner">
+                                                <div class="item-title">`+data.players[a].player+`</div>
+                                                <div class="item-after"><span class="badge color-blue">`+data.players[a].score+`</span></div>
+                                                </div>
+                                            </div>
+                                            </li>`;
+                                    }
+                                    $("#online_players").html(onlinePlayers)
+                                }
+                            }).catch((err) => {
+
+                            })
+    
+                            }, 1000);
+                            
                             let alerta = app.sheet.create({
                                     el: '.my-sheet-swipe-to-close',
                                     swipeToClose: true,
@@ -128,6 +159,8 @@
                 })
             }
         },
+
+
         on: {
             pageInit: function(page) {
                 var self = this;
