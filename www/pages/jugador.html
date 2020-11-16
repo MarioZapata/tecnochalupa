@@ -1,3 +1,4 @@
+<!--suppress JSAnnotator -->
 <template></template>
 <div class="page">
     <div class="navbar">
@@ -51,8 +52,8 @@
     </div>
 </div>
 </template>
-
 <script>
+    // @ts-ignore
     return {
         data: function () {
             return {
@@ -60,64 +61,77 @@
             }
         },
         methods: {
-            getQuestion : function (q,w){
+            getQuestion: function (q, w) {
                 let self = this;
-                app.request.promise.get(url + '/questions/'+q+'/active')
-                        .then(function (res) {  
-                                      
-                                let data = JSON.parse(res);   
-                                question_id = data.question_id;   
-                                $("#lbl_question").html('').html(data.question_text)                   
-                                    var images = [];                                               
-                                    for (var i = 1; i < 22; i++) {
-                                        images.push('img/' + i + '.webp');
-                                    }
-
-                                    var chalupa = new Chalupa({
-                                        images: images,
-                                        containerId: 'contenedorImg'
-                                    });
-
-                                    chalupa.click(image => {                                      
-
-                                        if(image.id === data.answer){
-                                            chalupa.addClass(image.id, 'bordeOk')
-                                            //Enviar resultados positivos
-                                            self.sendData(1);
-
-                                            
-                                        }else{
-                                            chalupa.addClass(image.id, 'bordepunteado')
-                                            self.sendData(0);
-                                            
-                                        }
-
-                                    });
-
-                                    w.close();
-
-                                    chalupa.create();
-                                    clearInterval(preloader);
-
-                        }).catch(function (err) {
-                            if (err == 404) {
-                                app.dialog.alert('No hay preguntas activas para el juego')
-                            }
-                            console.log(err.xhr)
-                            console.log(err.status)
-                            console.log(err.message)
+                app.request.promise.get(url + '/questions/' + q + '/active')
+                    .then(function (res) {
+                        let data = JSON.parse(res);
+                        question_id = data.question_id;
+                        $("#lbl_question").html('').html(data.question_text)
+                        var images = [];
+                        for (var i = 1; i < 22; i++) {
+                            images.push('img/' + i + '.webp');
+                        }
+                        var chalupa = new Chalupa({
+                            images: images,
+                            containerId: 'contenedorImg'
                         });
+
+                        chalupa.click(image => {
+                            if (image.id === data.answer) {
+                                chalupa.addClass(image.id, 'bordeOk');
+                                //Enviar resultados positivos
+                                self.sendData(1);
+                            } else {
+                                chalupa.addClass(image.id, 'bordepunteado');
+                                self.sendData(0);
+                            }
+                        });
+                        w.close();
+                        chalupa.create();
+                        clearInterval(preloader);
+                    }).catch(function (err) {
+                        if (err === 404) {
+                            app.dialog.alert('No hay preguntas activas para el juego');
+                        }
+                        if(err == 421){
+                            w.close();
+                            app.dialog.alert('El juego se ha cerrado. No puede unirse a este juego.');
+
+                        }
+                        console.log(err);
+                        console.log(err.status);
+                        console.log(err.message);
+                    });
             },
-            reloadGame : function (){
+            reloadGame: function () {
                 let self = this;
                 $("#contenedorImg").html("");
-               let waiting = app.dialog.progress('Esperando la chalupa');
-                        preloader = setInterval(() => {
-                        //Cargar la pregunta activa
-                        self.getQuestion(game_id, waiting )
+                waiting = app.dialog.progress('Esperando la chalupa...');
+                preloader = setInterval(() => {
+                    //Cargar la pregunta activa
+                    self.getQuestion(game_id, waiting)
                 }, 1000);
-                    
             },
+
+            reloadQuestion: function (q) {
+                let self = this;
+                waiting_question = setInterval(() => {
+                    //Cargar la pregunta activa siempre
+                    app.request.promise.get(url + '/questions/' + q + '/active')
+                        .then(function (res) {
+                            let data = JSON.parse(res);
+                            if (question_id != data.question_id) {
+                                preloader = null;
+                                self.reloadGame();
+                            }
+                        }).catch((err) => {
+
+                        })
+                }, 1800);
+
+            },
+
             join: function () {
                 let self = this;
                 app.dialog.login('Ingrese los datos del juego', function (player, code) {
@@ -134,20 +148,24 @@
                             $("#score_est").html(data.score.score)
                             game_id = data.score.game_id;
                             score_id = data.score.id;
-                            
                             //Esperar por preguntas
                             setTimeout(() => {
-                                let waiting = app.dialog.progress('Esperando la chalupa');
+                                waiting = app.dialog.progress('Esperando la chalupa');
                                 /** 
                                 * Buscar preguntas en el servidor
                                 **/
-                              preloader = setInterval(() => {
-                                   //Cargar la pregunta activa
-                                   self.getQuestion(game_id, waiting )
-                               }, 1000);
+                                preloader = setInterval(() => {
+                                    //Cargar la pregunta activa
+                                    self.getQuestion(game_id, waiting)
+                                }, 1000);
 
-                            },500)
-                            
+                            }, 500)
+                            //Caller always
+                            setTimeout(() => {
+                                if (game_id) {
+                                    self.reloadQuestion(game_id);
+                                }
+                            }, 1000)
                         })
                         .catch(function (err) {
                             if (err == 400) {
@@ -158,11 +176,10 @@
                                 app.dialog.alert('El codigo escrito no exìste')
                                 loader.close();
                             }
-
-                            console.log(err)
-                            console.log(err.xhr)
-                            console.log(err.status)
-                            console.log(err.message)
+                            console.log(err);
+                            console.log(err.xhr);
+                            console.log(err.status);
+                            console.log(err.message);
                         });
                 })
             },
@@ -170,22 +187,22 @@
             sendData: function (score) {
                 var self = this;
                 app.request({
-                    url: url + '/scores/'+score_id,
-                    data: {score, question_id },
+                    url: url + '/scores/' + score_id,
+                    data: { score, question_id },
                     dataType: 'json',
                     contentType: "application/json",
                     method: 'PUT',
-                    
-                    success: function( res, status, xhr) {
+
+                    success: function (res, status, xhr) {
                         console.log(res)
                         $("#score_est").html(res.game.score);
-                        setTimeout(self.reloadGame(),800);    
+                        setTimeout(self.reloadGame(), 800);
                     },
-                    error : function (xhr, status){
+                    error: function (xhr, status) {
 
                     }
-            });
-        },
+                });
+            },
         },
         on: {
             pageInit: function (page) {

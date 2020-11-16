@@ -1,8 +1,6 @@
 // Dom7
 var $ = Dom7;
 
-
-
 $('.open-alert').on('click', function() {
     app.dialog.alert('Hola Mario');
 });
@@ -13,8 +11,8 @@ if (document.location.search.indexOf('theme=') >= 0) {
     theme = document.location.search.split('theme=')[1].split('&')[0];
 }
 
-//let url = 'http://www.apichalupa.local';
-let url = 'https://chapi.cperezni.com';
+let url = 'http://www.apichalupa.local';
+//let url = 'https://chapi.cperezni.com';
 
 let game_id = 0;
 let prev_challenge = 0;
@@ -22,6 +20,9 @@ let preloader = null;
 let answer = null;
 let score_id = null;
 let question_id = null;
+let gameLive = null;
+let waiting = null;
+let gauge = null;
 
 // Init App
 let app = new Framework7({
