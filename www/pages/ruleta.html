@@ -80,7 +80,7 @@
             <div class="sheet-modal sheet-modal-top answerSheet" >
                 <div class="sheet-modal-inner">
                     <div class="page-content">
-                        <div class="block-title block-title-large">Respuesta</div>
+                        <div class="block-title block-title-large" id="career"></div>
                         <div class="block" style="text-align: center">
                             <img src="" class="imgAnswer" style="margin: 0 auto">
                         </div>
@@ -415,6 +415,7 @@
                                 answer = data.question.answer;
                                 let im = answer.split('i');
                                 $(".imgAnswer").attr('src', './img/'+im[1]+'.webp');
+                                $("#career").html(data.question.carrera);
                                 let question = app.dialog.alert(data.question.nombre, 'Pregunta!', () => {
                                     $("#question_lbl").html('').html(data.question.nombre);
                                     $("#reset").trigger("click");

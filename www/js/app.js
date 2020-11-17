@@ -24,6 +24,8 @@ let gameLive = null;
 let waiting = null;
 let gauge = null;
 
+var timeLeft = 30;
+
 // Init App
 let app = new Framework7({
     id: 'io.framework7.testapp',
@@ -96,4 +98,16 @@ Framework7.request.setup({
     headers: {
       //'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
     }
-})
+});
+
+var timerId = setInterval(countdown, 1000);
+
+function countdown() {
+    if (timeLeft === -1) {
+        clearTimeout(timerId);
+
+    } else {
+        timeLeft--;
+        return timeLeft;
+    }
+}

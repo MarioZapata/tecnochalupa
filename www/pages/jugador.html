@@ -77,11 +77,19 @@
                             containerId: 'contenedorImg'
                         });
 
+
+
                         chalupa.click(image => {
                             if (image.id === data.answer) {
+
                                 chalupa.addClass(image.id, 'bordeOk');
                                 //Enviar resultados positivos
-                                self.sendData(1);
+                                if(question_id === 12){
+                                    //Mostrar select 
+                                }else{
+                                    self.sendData(1);
+                                }
+
                             } else {
                                 chalupa.addClass(image.id, 'bordepunteado');
                                 self.sendData(0);
@@ -97,7 +105,6 @@
                         if(err == 421){
                             w.close();
                             app.dialog.alert('El juego se ha cerrado. No puede unirse a este juego.');
-
                         }
                         console.log(err);
                         console.log(err.status);
@@ -126,7 +133,6 @@
                                 self.reloadGame();
                             }
                         }).catch((err) => {
-
                         })
                 }, 1800);
 
