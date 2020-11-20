@@ -22,6 +22,7 @@
         </div>
 
         <div class="page-content" id="ppalRuleta">
+
             <div style="text-align: center;">
                 <div class="block">
                     <div class="row">
@@ -35,6 +36,8 @@
                             </button>
                         </div>
                         <div class="col-100">
+                            <p><span data-progress="100" class="progressbar color-red" id="demo-inline-progressbar">
+                        </div><div class="col-100">
                             <p id="question_lbl"></p>
                         </div>
                     </div>
@@ -46,21 +49,22 @@
 
                 <div class="block">
                     <p class="segmented segmented-round">
-                        <button  id="reset" class="button button-round button-fill color-orange" @click="resetWheel">Reset</button>
+                        <button  id="reset" class="button button-round button-fill color-red" @click="resetWheel">Reset</button>
+                        <button id="code" class="button button-round button-fill color-orange" @click="showSheet">Código</button>
                         <button id="showAnswer" class="button button-round button-fill color-green" @click="showAnswer">Respuesta</button>
                     </p>
 
                 </div>
             </div>
 
-            <div class="card card-outline" style="margin-bottom: 10px;">
+            <div class="card card-outline" style="margin-bottom: 5px;">
                 <div class="card-header">Tablero de resultados</div>
                 <div class="card-content card-content-padding">
                     <div class="list">
                         <ul id="online_players"></ul>
                     </div>
                 </div>
-                <div class="card-footer" id="code">Código del juego</div>
+                <div class="card-footer">{{game_id}}</div>
             </div>
 
             <!-- Swipe to close sheet -->
@@ -69,13 +73,12 @@
                     <div class="page-content">
                         <div class="block-title block-title-large">Detalles del juego</div>
                         <div class="block">
-                            <h1 style="font-size: 6em;"><b id="code"> </b></h1>
+                            <h1 style="font-size: 6em;"><b id="codeb"> </b></h1>
                             <p id="question" style="font-size: 2em;"></p>
                         </div>
                     </div>
                 </div>
             </div>
-
 
             <div class="sheet-modal sheet-modal-top answerSheet" >
                 <div class="sheet-modal-inner">
@@ -107,6 +110,7 @@
             rollWell: function () {
                 var self = this;
                 if (game_id) {
+                    timeLeft = basetimeLeft;
                     var well = this.theWheel;
                     audioPrueba.play();
                     well.startAnimation();
@@ -115,14 +119,17 @@
                 }
 
             },
+
             playMusic: function () {
                 var self = this;
                 audioPrueba.play();
             },
+
             muteMusic: function () {
                 var self = this;
                 audioPrueba.pause();
             },
+
             resetWheel: function () {
                 var self = this;
                 var theWheel = this.theWheel
@@ -132,14 +139,24 @@
                 wheelSpinning = false; // Reset to false to power buttons and spin can be clicked again.
             },
 
+
             showAnswer : function (){
-                let alerta = app.sheet.create({
-                    el: '.answerSheet',
-                    swipeToClose: true,
-                    backdrop: true,
-                });
-                alerta.open();
+                if(question_id){
+                    let alerta = app.sheet.create({
+                        el: '.answerSheet',
+                        swipeToClose: true,
+                        backdrop: true,
+                    });
+                    alerta.open();
+                }else{
+                    app.dialog.alert('¡Debe girar la ruleta para empezar!');
+                }
             },
+
+            showSheet : function (){
+                info_game.open();
+            },
+
             startGame: function () {
                 console.log(game_id);
                 if (game_id === 0) {
@@ -151,7 +168,7 @@
                                 .then(function (res) {
                                     data = JSON.parse(res);
                                     loader.close();
-                                    $("b#code,div#code").html(data.game.code);
+                                    $("b#codeb, button#code").html(data.game.code);
                                     $("p#question, div#question").html(data.game.nombre);
 
                                     /*Guardar el id del juego*/
@@ -189,13 +206,13 @@
 
                                     }, 1000);
 
-                                    let alerta = app.sheet.create({
+                                    info_game = app.sheet.create({
                                         el: '.my-sheet-swipe-to-close',
                                         swipeToClose: true,
                                         backdrop: true,
                                     });
                                     $("#btnCreate").text("Cerrar el juego");
-                                    alerta.open();
+                                    info_game.open();
                                 })
                                 .catch(function (err) {
                                     console.log(err.xhr)
@@ -243,11 +260,11 @@
                 gauge = app.gauge.create({
                     el: '.demo-gauge',
                     type: 'circle',
-                    value: 0.1,
+                    value: 0,
                     size: 150,
                     borderColor: '#2196f3',
                     borderWidth: 10,
-                    valueText: '10%',
+                    valueText: '0%',
                     valueFontSize: 41,
                     valueTextColor: '#2196f3',
                     labelText: 'de aciertos',
@@ -413,18 +430,24 @@
                                 //$("#question").empty().append(data.nombre);
                                 prev_challenge = data.prev_challenge;
                                 answer = data.question.answer;
+                                question_id = data.question.id;
                                 let im = answer.split('i');
                                 $(".imgAnswer").attr('src', './img/'+im[1]+'.webp');
                                 $("#career").html(data.question.carrera);
                                 let question = app.dialog.alert(data.question.nombre, 'Pregunta!', () => {
                                     $("#question_lbl").html('').html(data.question.nombre);
                                     $("#reset").trigger("click");
-                                    /*let alerta = app.sheet.create({
-                                            el: '.my-sheet-swipe-to-close',
-                                            swipeToClose: true,
-                                            backdrop: true,
-                                    });
-                                    alerta.open();*/
+                                    progress = setInterval(() => {
+                                        if(timeLeft === 0){
+                                            clearInterval(progress);
+                                        }
+                                        timeLeft = timeLeft - 1;
+                                        console.log(timeLeft);
+                                        let countDown = (timeLeft / 15) * 100;
+                                        console.log(countDown);
+                                        console.log(timeLeft);
+                                        app.progressbar.set('#demo-inline-progressbar', countDown);
+                                    }, 1000)
                                 });
                             })
                             .catch(function (err) {

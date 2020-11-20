@@ -1,64 +1,101 @@
 <!--suppress JSAnnotator -->
-<template></template>
-<div class="page">
-    <div class="navbar">
-        <div class="navbar-inner sliding">
-            <div class="left">
-                <a href="#" class="link back">
-                    <link rel="stylesheet" href="css/estilo.css">
-                    <i class="icon icon-back"></i>
-                    <span class="if-not-md">Back</span>
-                </a>
-            </div>
-            <div class="title" id="tituloNav">TECNOCHALUPA VOCACIONAL</div>
-            <div class="right">
-                <a href="/" class="homeppal">
-                    <link rel="stylesheet" href="css/estilo.css">
-                    <i class="f7-icons">house</i>
-                    <span>INICIO</span>
-                </a>
-            </div>
-        </div>
-    </div>
-    <div class="page-content" id="fondoIndicio">
+<template>
+    <div class="page">
 
-        <div class="block">
-            <div class="row">
-                <div class="col-50"><a href="#" class="btnVolver button button-large button-raised button-fill"
-                        @click="join" id="btn_generar">Unirse a un juego</a></div>
-                <div class="col-50"><a id="gameConnected" class="button button-fill button-large">Jugador</a></div>
-            </div>
-            <div class="row info" style="display: none;">
-                <div class="col-100">
-                    <div class="block block-strong">
-                        <div class="chip">
-                            <div class="chip-label">Profesor / Juego: <strong id="teacher"></strong> </div>
-                        </div>
-                        <div class="chip color-red">
-                            <div class="chip-label">Puntuacion: <strong id="score_est"></strong></div>
-                        </div>
-                    </div>
+
+        <div class="navbar">
+            <div class="navbar-inner sliding">
+                <div class="left">
+                    <a href="#" class="link back">
+                        <link rel="stylesheet" href="css/estilo.css">
+                        <i class="icon icon-back"></i>
+                        <span class="if-not-md">Back</span>
+                    </a>
                 </div>
-                <div class="col-100" style="margin-top: -35px;">
-                    <div class="block block-strong">
-                        <p id="lbl_question"></p>
-                    </div>
+                <div class="title" id="tituloNav">TECNOCHALUPA VOCACIONAL</div>
+                <div class="right">
+                    <a href="/" class="homeppal">
+                        <link rel="stylesheet" href="css/estilo.css">
+                        <i class="f7-icons">house</i>
+                        <span>INICIO</span>
+                    </a>
                 </div>
             </div>
         </div>
+        <div class="page-content" id="fondoIndicio">
+
+            <div class="block">
+                <div class="row">
+                    <div class="col-50"><a href="#" class="btnVolver button button-large button-raised button-fill"
+                                           @click="join" id="btn_generar">Unirse a un juego</a></div>
+                    <div class="col-50"><a id="gameConnected" class="button button-fill button-large"
+                                           @click="openListUser">Jugador</a></div>
+                </div>
+                <div class="row info" style="display: none;">
+                    <div class="col-100">
+                        <div class="block block-strong">
+                            <div class="chip">
+                                <div class="chip-label">Profesor / Juego: <strong id="teacher"></strong></div>
+                            </div>
+                            <div class="chip color-red">
+                                <div class="chip-label">Puntuacion: <strong id="score_est"></strong></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-100" style="margin-top: -35px;">
+                        <div class="block block-strong">
+                            <p id="lbl_question"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
 
-        <div id="contenedorImg"></div>
+            <div id="contenedorImg"></div>
+            <div class="block" style="display: none">
+                <div class="list">
+                    <ul>
+                        <!-- Smart select item -->
+                        <li>
+                            <!-- Additional "smart-select" class -->
+                            <a href="#" class="item-link smart-select smart-select-init" data-open-in="sheet" data-virtual-list="true" data-page-back-link-text="Regresar">
+                                <!-- select -->
+                                <select id="members_to_select">
+                                    <option value="apple" selected>Selecciona un miembro</option>
+                                </select>
+                                <div class="item-content">
+                                    <div class="item-inner">
+                                        <!-- Select label -->
+                                        <div class="item-title">Miembro</div>
+                                        <!-- Selected value, not required -->
+                                        <div class="item-after">Selecciona un miembro</div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="sheet-modal sheet-modal-top my-sheet-top">
+                <div class="toolbar toolbar-bottom">
+                    <div class="toolbar-inner">
+                        <div class="left"></div>
+                        <div class="right"><a class="link sheet-close" href="#">Cerrar</a></div>
+                    </div>
+                </div>
+                <div class="sheet-modal-inner">
+
+                </div>
+            </div>
+
+        </div>
     </div>
-</div>
 </template>
 <script>
     // @ts-ignore
     return {
         data: function () {
-            return {
-
-            }
+            return {}
         },
         methods: {
             getQuestion: function (q, w) {
@@ -67,7 +104,7 @@
                     .then(function (res) {
                         let data = JSON.parse(res);
                         question_id = data.question_id;
-                        $("#lbl_question").html('').html(data.question_text)
+                        $("#lbl_question").html('').html(data.question_text);
                         var images = [];
                         for (var i = 1; i < 22; i++) {
                             images.push('img/' + i + '.webp');
@@ -78,15 +115,33 @@
                         });
 
 
-
                         chalupa.click(image => {
                             if (image.id === data.answer) {
-
                                 chalupa.addClass(image.id, 'bordeOk');
                                 //Enviar resultados positivos
-                                if(question_id === 12){
+                                if (question_id === 12) {
                                     //Mostrar select
-                                }else{
+                                    app.request.promise.get(url + '/scores/' + q + '/members', {me:score_id})
+                                        .then(function (res) {
+                                            setTimeout(()=>{
+                                                let data = JSON.parse(res);
+                                                console.log(data);
+                                                let html = '';
+                                                html = '<option value="0" selected>Selecciona un miembro</option>';
+                                                Object.keys(data).forEach(key => {
+                                                    html += `<option value="`+key+`">`+data[key]+`</option>`;
+                                                });
+                                                $('select#members_to_select').html(html);
+
+                                                var smartSelect = app.smartSelect.create({
+                                                    el: '.smart-select',
+                                                });
+                                                smartSelect.open();
+                                                self.sendData(1);
+                                            },100);
+                                        }).catch((err) => {
+                                    })
+                                } else {
                                     self.sendData(1);
                                 }
 
@@ -99,17 +154,24 @@
                         chalupa.create();
                         clearInterval(preloader);
                     }).catch(function (err) {
-                        if (err === 404) {
-                            app.dialog.alert('No hay preguntas activas para el juego');
-                        }
-                        if(err == 421){
-                            w.close();
-                            app.dialog.alert('El juego se ha cerrado. No puede unirse a este juego.');
-                        }
-                        console.log(err);
-                        console.log(err.status);
-                        console.log(err.message);
-                    });
+                    if (err === 404) {
+                        app.dialog.alert('No hay preguntas activas para el juego');
+                    }
+                    if (err == 421) {
+                        w.close();
+                        app.dialog.alert('El juego se ha cerrado. No puede unirse a este juego.');
+                    }
+                    console.log(err);
+                    console.log(err.status);
+                    console.log(err.message);
+                });
+            },
+            openListUser: function () {
+                app.sheet.create({
+                    el: '.members',
+                    swipeToClose: true,
+                    backdrop: true,
+                });
             },
             reloadGame: function () {
                 let self = this;
@@ -133,7 +195,7 @@
                                 self.reloadGame();
                             }
                         }).catch((err) => {
-                        })
+                    })
                 }, 1800);
 
             },
@@ -143,7 +205,7 @@
                 app.dialog.login('Ingrese los datos del juego', function (player, code) {
                     let loader = app.dialog.progress();
                     app.request.promise.post(url + '/scores',
-                        { code: code, player: player })
+                        {code: code, player: player})
                         .then(function (res) {
                             data = JSON.parse(res);
                             loader.close();
@@ -157,9 +219,9 @@
                             //Esperar por preguntas
                             setTimeout(() => {
                                 waiting = app.dialog.progress('Esperando la chalupa');
-                                /** 
-                                * Buscar preguntas en el servidor
-                                **/
+                                /**
+                                 * Buscar preguntas en el servidor
+                                 **/
                                 preloader = setInterval(() => {
                                     //Cargar la pregunta activa
                                     self.getQuestion(game_id, waiting)
@@ -194,7 +256,7 @@
                 var self = this;
                 app.request({
                     url: url + '/scores/' + score_id,
-                    data: { score, question_id },
+                    data: {score, question_id},
                     dataType: 'json',
                     contentType: "application/json",
                     method: 'PUT',
