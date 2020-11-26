@@ -27,7 +27,6 @@ class Chalupa {
         for (let i in images) {
             let image = new Image();
             image.src = images[i];
-
             let parts = images[i].split("img/");
             let num = parts[1].split('.');
 
@@ -35,8 +34,6 @@ class Chalupa {
             image.id = 'i' + num[0];
             image.addEventListener('click', e => {
                 this.fx(image);
-
-
             });
             this.contenedorImg.append(image);
         }

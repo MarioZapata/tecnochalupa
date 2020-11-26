@@ -1,143 +1,239 @@
-<template></template>
-<div class="page">
-    <div class="navbar">
-        <div class="navbar-inner sliding">
-            <div class="left">
-                <a href="#" class="link back">
-                    <link rel="stylesheet" href="css/estilo.css">
-                    <i class="icon icon-back"></i>
-                    <span class="if-not-md">Back</span>
-                </a>
-            </div>
-            <div class="title" id="tituloNav">TECNOCHALUPA VOCACIONAL</div>
-            <div class="right">
-                <a href="/" class="homeppal">
-                    <link rel="stylesheet" href="css/estilo.css">
-                    <i class="f7-icons">house</i>
-                    <span>INICIO</span>
-                </a>
+<!--suppress JSAnnotator -->
+<template>
+    <div class="page">
+
+
+        <div class="navbar">
+            <div class="navbar-inner sliding">
+                <div class="left">
+                    <a href="#" class="link back">
+                        <link rel="stylesheet" href="css/estilo.css">
+                        <i class="icon icon-back"></i>
+                        <span class="if-not-md">Back</span>
+                    </a>
+                </div>
+                <div class="title" id="tituloNav">TECNOCHALUPA VOCACIONAL</div>
+                <div class="right">
+                    <a href="/" class="homeppal">
+                        <link rel="stylesheet" href="css/estilo.css">
+                        <i class="f7-icons">house</i>
+                        <span>INICIO</span>
+                    </a>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="page-content" id="fondoIndicio">
+        <div class="page-content" id="fondoIndicio">
 
-        <div class="block">
-            <div class="row">
-                <div class="col-50"><a href="#" class="btnVolver button button-large button-raised button-fill"
-                        @click="join" id="btn_generar">Unirse a un juego</a></div>
-                <div class="col-50"><a id="gameConnected" class="button button-fill button-large">Jugador</a></div>
-            </div>
-            <div class="row info" style="display: none;">
-                <div class="col-100">
-                    <div class="block block-strong">
-                        <div class="chip">
-                            <div class="chip-label">Profesor / Juego: <strong id="teacher"></strong> </div>
+            <div class="block">
+                <div class="row">
+                    <div class="col-50"><a href="#" class="btnVolver button button-large button-raised button-fill"
+                                           @click="join" id="btn_generar">Unirse a un juego</a></div>
+                    <div class="col-50"><a id="gameConnected" class="button button-fill button-large"
+                                           @click="openListUser">Jugador</a></div>
+                </div>
+                <div class="row info" style="display: none;">
+                    <div class="col-100">
+                        <div class="block block-strong">
+                            <div class="chip">
+                                <div class="chip-label">Profesor / Juego: <strong id="teacher"></strong></div>
+                            </div>
+                            <div class="chip color-red">
+                                <div class="chip-label">Puntuacion: <strong id="score_est"></strong></div>
+                            </div>
                         </div>
-                        <div class="chip color-red">
-                            <div class="chip-label">Puntuacion: <strong id="score_est"></strong></div>
+                    </div>
+                    <div class="col-100" style="margin-top: -35px;">
+                        <div class="block block-strong">
+                            <p id="lbl_question"></p>
                         </div>
                     </div>
                 </div>
             </div>
+
+
+            <div id="contenedorImg"></div>
+            <div class="block" style="display: none">
+                <div class="list">
+                    <ul>
+                        <!-- Smart select item -->
+                        <li>
+                            <!-- Additional "smart-select" class -->
+                            <a href="#" class="item-link smart-select smart-select-init" data-open-in="sheet" data-virtual-list="true" data-page-back-link-text="Regresar">
+                                <!-- select -->
+                                <select id="members_to_select">
+                                    <option value="apple" selected>Selecciona un miembro</option>
+                                </select>
+                                <div class="item-content">
+                                    <div class="item-inner">
+                                        <!-- Select label -->
+                                        <div class="item-title">Miembro</div>
+                                        <!-- Selected value, not required -->
+                                        <div class="item-after">Selecciona un miembro</div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="sheet-modal sheet-modal-top my-sheet-top">
+                <div class="toolbar toolbar-bottom">
+                    <div class="toolbar-inner">
+                        <div class="left"></div>
+                        <div class="right"><a class="link sheet-close" href="#">Cerrar</a></div>
+                    </div>
+                </div>
+                <div class="sheet-modal-inner">
+
+                </div>
+            </div>
+
         </div>
-
-
-        <div id="contenedorImg"></div>
     </div>
-</div>
 </template>
-
 <script>
+    // @ts-ignore
     return {
         data: function () {
-            return {
-
-            }
+            return {}
         },
         methods: {
-            getQuestion : function (q,w){
+            getQuestion: function (q, w) {
                 let self = this;
-                app.request.promise.get(url + '/questions/'+q+'/active')
-                        .then(function (res) {  
-                                      
-                                let data = JSON.parse(res);                         
-                                    var images = [];                                               
-                                    for (var i = 1; i < 22; i++) {
-                                        images.push('img/' + i + '.webp');
-                                    }
-
-                                    var chalupa = new Chalupa({
-                                        images: images,
-                                        containerId: 'contenedorImg'
-                                    });
-
-                                    chalupa.click(image => {
-
-                                        
-
-                                        if(image.id === data.answer){
-                                            chalupa.addClass(image.id, 'bordeOk')
-                                            //Enviar resultados positivos
-                                            self.sendData(1);
-                                        }else{
-                                            chalupa.addClass(image.id, 'bordepunteado')
-                                            self.sendData(0);
-                                            
-                                            /*
-                                            let waiting = app.dialog.progress('Esperando la chalupa');
-                                                preloader = setInterval(() => {
-                                                //Cargar la pregunta activa
-                                                self.getQuestion(game_id, waiting )
-                                            }, 1000);
-                                            */
-
-                                        }
-
-                                    });
-
-                                    w.close();
-
-                                    chalupa.create();
-                                    clearInterval(preloader);
-
-                        }).catch(function (err) {
-                            if (err == 404) {
-                                app.dialog.alert('No hay preguntas activas para el juego')
-                            }
-                            console.log(err.xhr)
-                            console.log(err.status)
-                            console.log(err.message)
+                app.request.promise.get(url + '/questions/' + q + '/active')
+                    .then(function (res) {
+                        let data = JSON.parse(res);
+                        question_id = data.question_id;
+                        $("#lbl_question").html('').html(data.question_text);
+                        var images = [];
+                        for (var i = 1; i < 22; i++) {
+                            images.push('img/' + i + '.webp');
+                        }
+                        var chalupa = new Chalupa({
+                            images: images,
+                            containerId: 'contenedorImg'
                         });
+
+
+                        chalupa.click(image => {
+                            if (image.id === data.answer) {
+                                chalupa.addClass(image.id, 'bordeOk');
+                                //Enviar resultados positivos
+                                if (question_id === 12) {
+                                    //Mostrar select
+                                    app.request.promise.get(url + '/scores/' + q + '/members', {me:score_id})
+                                        .then(function (res) {
+                                            setTimeout(()=>{
+                                                let data = JSON.parse(res);
+                                                console.log(data);
+                                                let html = '';
+                                                html = '<option value="0" selected>Selecciona un miembro</option>';
+                                                Object.keys(data).forEach(key => {
+                                                    html += `<option value="`+key+`">`+data[key]+`</option>`;
+                                                });
+                                                $('select#members_to_select').html(html);
+
+                                                var smartSelect = app.smartSelect.create({
+                                                    el: '.smart-select',
+                                                });
+                                                smartSelect.open();
+                                                self.sendData(1);
+                                            },100);
+                                        }).catch((err) => {
+                                    })
+                                } else {
+                                    self.sendData(1);
+                                }
+
+                            } else {
+                                chalupa.addClass(image.id, 'bordepunteado');
+                                self.sendData(0);
+                            }
+                        });
+                        w.close();
+                        chalupa.create();
+                        clearInterval(preloader);
+                    }).catch(function (err) {
+                    if (err === 404) {
+                        app.dialog.alert('No hay preguntas activas para el juego');
+                    }
+                    if (err == 421) {
+                        w.close();
+                        app.dialog.alert('El juego se ha cerrado. No puede unirse a este juego.');
+                    }
+                    console.log(err);
+                    console.log(err.status);
+                    console.log(err.message);
+                });
             },
+            openListUser: function () {
+                app.sheet.create({
+                    el: '.members',
+                    swipeToClose: true,
+                    backdrop: true,
+                });
+            },
+            reloadGame: function () {
+                let self = this;
+                $("#contenedorImg").html("");
+                waiting = app.dialog.progress('Esperando la chalupa...');
+                preloader = setInterval(() => {
+                    //Cargar la pregunta activa
+                    self.getQuestion(game_id, waiting)
+                }, 1000);
+            },
+
+            reloadQuestion: function (q) {
+                let self = this;
+                waiting_question = setInterval(() => {
+                    //Cargar la pregunta activa siempre
+                    app.request.promise.get(url + '/questions/' + q + '/active')
+                        .then(function (res) {
+                            let data = JSON.parse(res);
+                            if (question_id != data.question_id) {
+                                preloader = null;
+                                self.reloadGame();
+                            }
+                        }).catch((err) => {
+                    })
+                }, 1800);
+
+            },
+
             join: function () {
                 let self = this;
                 app.dialog.login('Ingrese los datos del juego', function (player, code) {
                     let loader = app.dialog.progress();
                     app.request.promise.post(url + '/scores',
-                        { code: code, player: player })
+                        {code: code, player: player})
                         .then(function (res) {
                             data = JSON.parse(res);
                             loader.close();
                             /*Crear ruleta*/
                             $(".info").css("display", "block")
                             $("#gameConnected").text(data.game.code)
-                            $("#teacher").text(data.game.nombre)
-                            $("#score_est").text(data.score.score)
+                            $("#teacher").html(data.game.nombre)
+                            $("#score_est").html(data.score.score)
                             game_id = data.score.game_id;
-                            
+                            score_id = data.score.id;
                             //Esperar por preguntas
                             setTimeout(() => {
-                                let waiting = app.dialog.progress('Esperando la chalupa');
-                                /** 
-                                * Buscar preguntas en el servidor
-                                **/
-                              preloader = setInterval(() => {
-                                   //Cargar la pregunta activa
-                                   self.getQuestion(game_id, waiting )
-                               }, 1000);
+                                waiting = app.dialog.progress('Esperando la chalupa');
+                                /**
+                                 * Buscar preguntas en el servidor
+                                 **/
+                                preloader = setInterval(() => {
+                                    //Cargar la pregunta activa
+                                    self.getQuestion(game_id, waiting)
+                                }, 1000);
 
-                            },500)
-                            
+                            }, 500)
+                            //Caller always
+                            setTimeout(() => {
+                                if (game_id) {
+                                    self.reloadQuestion(game_id);
+                                }
+                            }, 1000)
                         })
                         .catch(function (err) {
                             if (err == 400) {
@@ -148,19 +244,33 @@
                                 app.dialog.alert('El codigo escrito no exìste')
                                 loader.close();
                             }
-
-                            console.log(err)
-                            console.log(err.xhr)
-                            console.log(err.status)
-                            console.log(err.message)
+                            console.log(err);
+                            console.log(err.xhr);
+                            console.log(err.status);
+                            console.log(err.message);
                         });
                 })
             },
 
-            generar: function () {
+            sendData: function (score) {
                 var self = this;
-                
-            }
+                app.request({
+                    url: url + '/scores/' + score_id,
+                    data: {score, question_id},
+                    dataType: 'json',
+                    contentType: "application/json",
+                    method: 'PUT',
+
+                    success: function (res, status, xhr) {
+                        console.log(res)
+                        $("#score_est").html(res.game.score);
+                        setTimeout(self.reloadGame(), 800);
+                    },
+                    error: function (xhr, status) {
+
+                    }
+                });
+            },
         },
         on: {
             pageInit: function (page) {

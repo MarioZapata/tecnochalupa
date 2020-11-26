@@ -178,17 +178,7 @@ img {
         border-radius: 10px;
         box-shadow: 13px 10px 20px 1px rgba(0, 0, 0, 0.6);
     }
-    #reset {
-        color: white;
-        background-color: rgb(10, 83, 3);
-        width: 50%;
-        height: 50px;
-        font-size: 1.5em;
-        margin-top: 20px;
-        padding-top: 0px;
-        border-radius: 10px;
-        box-shadow: 13px 10px 20px 1px rgba(0, 0, 0, 0.6);
-    }
+
     #tituloReglas {
         width: 90%;
         margin: 0 auto;
@@ -432,17 +422,7 @@ img {
         border-radius: 20px;
         box-shadow: 13px 10px 20px 1px rgba(0, 0, 0, 0.6);
     }
-    #reset {
-        color: white;
-        background-color: rgb(10, 83, 3);
-        width: 60%;
-        height: 80px;
-        font-size: 2.5em;
-        margin-top: 20px;
-        padding-top: 0px;
-        border-radius: 20px;
-        box-shadow: 13px 10px 20px 1px rgba(0, 0, 0, 0.6);
-    }
+
     #btnJugador {
         margin: 20px auto;
         font-size: 2.5em;
@@ -665,3 +645,8 @@ ul .img-selected {
 div:empty {
     display: none !important;
  }
+.imgAnswer{
+    padding: 5px;
+    border-radius: 10px;
+    background: white;
+}

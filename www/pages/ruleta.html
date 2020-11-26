@@ -1,14 +1,15 @@
+<!--suppress JSAnnotator -->
 <template>
-	<div class="page">
-		<div class="navbar">
-			<div class="navbar-inner sliding">
-				<div class="left">
-					<a href="#" class="link back">
-						<link rel="stylesheet" href="css/estilo.css">
-						<i class="icon icon-back"></i>
-						<span class="if-not-md">Back</span>
-					</a>
-				</div>
+    <div class="page">
+        <div class="navbar">
+            <div class="navbar-inner sliding">
+                <div class="left">
+                    <a href="#" class="link back">
+                        <link rel="stylesheet" href="css/estilo.css">
+                        <i class="icon icon-back"></i>
+                        <span class="if-not-md">Back</span>
+                    </a>
+                </div>
                 <div class="title">RULETA DE INDICIOS</div>
                 <div class="right">
                     <a href="/" class="homeppal">
@@ -17,79 +18,119 @@
                         <span>INICIO</span>
                     </a>
                 </div>
-			</div>
+            </div>
         </div>
 
-		<div class="page-content" id="ppalRuleta">
-			<center>
+        <div class="page-content" id="ppalRuleta">
 
+            <div style="text-align: center;">
                 <div class="block">
                     <div class="row">
-                      <div class="col"><button id="btnCreate" @click="startGame" class="button button-fill button-large">Empezar a jugar</button></div>
-                      <div class="col"><button id="btn_girar" @click="rollWell" class="button button-fill button-large">Girar</button></div>
+                        <div class="col-50">
+                            <button id="btnCreate" @click="startGame" class="button button-fill button-large">Empezar a
+                                jugar
+                            </button>
+                        </div>
+                        <div class="col-50">
+                            <button id="btn_girar" @click="rollWell" class="button button-fill button-large">Girar
+                            </button>
+                        </div>
+                        <div class="col-100">
+                            <p><span data-progress="100" class="progressbar color-red" id="demo-inline-progressbar">
+                        </div><div class="col-100">
+                            <p id="question_lbl"></p>
+                        </div>
                     </div>
                 </div>
-				
-                <br>
+
                 <div class="fondo" width="438" height="582" aling="center" valign="center">
                     <canvas id="ruleta" width="500" height="500"></canvas>
                 </div>
 
-				<div>
-					<a href="#" id="reset" class="button button-large button-raised" @click="resetWheel">Reset</a>
-				</div>
-            </center>
-            
-            <div class="card card-outline" style="margin-bottom: 100px;">
-                <div class="card-header">Tablero de resultados</div>
-                <div class="card-content card-content-padding">
+                <div class="block">
+                    <p class="segmented segmented-round">
+                        <button  id="reset" class="button button-round button-fill color-red" @click="resetWheel">Reset</button>
+                        <button id="code" class="button button-round button-fill color-orange" @click="showSheet">Código</button>
+                        <button id="showAnswer" class="button button-round button-fill color-green" @click="showAnswer">Respuesta</button>
+                    </p>
 
-                </div>
-                <div class="card-footer" id="code">Código del juego</div>
-              </div>
-
-             <!-- Swipe to close sheet -->
-            <div class="sheet-modal my-sheet-swipe-to-close" style="height:auto; --f7-sheet-bg-color: #fff;">
-                <div class="sheet-modal-inner">
-                <div class="page-content">
-                    <div class="block-title block-title-large" id="question"></div>
-                    <div class="block">
-                    <h1 style="font-size: 6em;"><b id="code"> </b></h1>
-                    <p id="question" style="font-size: 2em;"></p>
-                    </div>
-                </div>
                 </div>
             </div>
-		</div>
+
+            <div class="card card-outline" style="margin-bottom: 5px;">
+                <div class="card-header">Tablero de resultados</div>
+                <div class="card-content card-content-padding">
+                    <div class="list">
+                        <ul id="online_players"></ul>
+                    </div>
+                </div>
+                <div class="card-footer">{{game_id}}</div>
+            </div>
+
+            <!-- Swipe to close sheet -->
+            <div class="sheet-modal my-sheet-swipe-to-close" style="height:auto; --f7-sheet-bg-color: #fff;">
+                <div class="sheet-modal-inner">
+                    <div class="page-content">
+                        <div class="block-title block-title-large">Detalles del juego</div>
+                        <div class="block">
+                            <h1 style="font-size: 6em;"><b id="codeb"> </b></h1>
+                            <p id="question" style="font-size: 2em;"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sheet-modal sheet-modal-top answerSheet" >
+                <div class="sheet-modal-inner">
+                    <div class="page-content">
+                        <div class="block-title block-title-large" id="career"></div>
+                        <div class="block" style="text-align: center">
+                            <img src="" class="imgAnswer" style="margin: 0 auto">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="block block-strong text-align-center">
+                <div class="gauge demo-gauge"></div>
+            </div>
+        </div>
     </div>
-    
+
 
 </template>
 <script>
     return {
-        data: function() {
+        data: function () {
             return {
                 theWheel: null
             }
         },
         methods: {
-            rollWell: function() {
+            rollWell: function () {
                 var self = this;
-                var well = this.theWheel;
-                audioPrueba.play();
-
-                well.startAnimation();
+                if (game_id) {
+                    timeLeft = basetimeLeft;
+                    var well = this.theWheel;
+                    audioPrueba.play();
+                    well.startAnimation();
+                } else {
+                    app.dialog.alert('Debe registrar un juego antes de girar la ruleta')
+                }
 
             },
-            playMusic: function() {
+
+            playMusic: function () {
                 var self = this;
                 audioPrueba.play();
             },
-            muteMusic: function() {
+
+            muteMusic: function () {
                 var self = this;
                 audioPrueba.pause();
             },
-            resetWheel: function() {
+
+            resetWheel: function () {
                 var self = this;
                 var theWheel = this.theWheel
                 theWheel.stopAnimation(false); // Stop the animation, false as param so does not call callback function.
@@ -97,40 +138,140 @@
                 theWheel.draw(); // Call draw to render changes to the wheel.
                 wheelSpinning = false; // Reset to false to power buttons and spin can be clicked again.
             },
-            
-            startGame : function(){
-                app.dialog.prompt('Nombre del profesor/Juego', function (nombre) {
-                    let loader = app.dialog.progress();
-                    app.request.promise.post(url + '/games',
-                        {nombre: nombre})
-                        .then(function (res) {
-                            data = JSON.parse(res);
+
+
+            showAnswer : function (){
+                if(question_id){
+                    let alerta = app.sheet.create({
+                        el: '.answerSheet',
+                        swipeToClose: true,
+                        backdrop: true,
+                    });
+                    alerta.open();
+                }else{
+                    app.dialog.alert('¡Debe girar la ruleta para empezar!');
+                }
+            },
+
+            showSheet : function (){
+                info_game.open();
+            },
+
+            startGame: function () {
+                console.log(game_id);
+                if (game_id === 0) {
+                    app.dialog.prompt('Nombre del profesor / juego', function (nombre) {
+                        let loader = app.dialog.progress();
+                        if(nombre.length ){
+                            app.request.promise.post(url + '/games',
+                                {nombre: nombre})
+                                .then(function (res) {
+                                    data = JSON.parse(res);
+                                    loader.close();
+                                    $("b#codeb, button#code").html(data.game.code);
+                                    $("p#question, div#question").html(data.game.nombre);
+
+                                    /*Guardar el id del juego*/
+                                    game_id = data.game.id;
+
+                                    //Cargar lista de usuarios conectados
+                                    gameLive = setInterval(() => {
+                                        app.request.promise.get(url + '/scores/' + game_id + '/online', {})
+                                            .then((res) => {
+                                                let data = JSON.parse(res);
+
+                                                if (data.players.length) {
+                                                    let info = parseFloat(data.value).toFixed(0);
+                                                    gauge.update({
+                                                        value: info / 100,
+                                                        valueText: info + '%'
+                                                    });
+                                                    let onlinePlayers = '';
+
+                                                    for (let a = 0; a < data.players.length; a++) {
+                                                        onlinePlayers += `
+                                                                        <li>
+                                                                            <div class="item-content">
+                                                                                <div class="item-inner">
+                                                                                <div class="item-title">` + data.players[a].player + `</div>
+                                                                                <div class="item-after"><span class="badge color-blue">` + data.players[a].score + `</span></div>
+                                                                                </div>
+                                                                            </div>
+                                                                            </li>`;
+                                                    }
+                                                    $("#online_players").html(onlinePlayers)
+                                                }
+                                            }).catch((err) => {
+                                        })
+
+                                    }, 1000);
+
+                                    info_game = app.sheet.create({
+                                        el: '.my-sheet-swipe-to-close',
+                                        swipeToClose: true,
+                                        backdrop: true,
+                                    });
+                                    $("#btnCreate").text("Cerrar el juego");
+                                    info_game.open();
+                                })
+                                .catch(function (err) {
+                                    console.log(err.xhr)
+                                    console.log(err.status)
+                                    console.log(err.message)
+                                });
+                        }else{
                             loader.close();
+                            app.dialog.alert('Debe ingresar un nombre para el juego!')
+                        }
+                    })
+                } else {
+                    let btn = $("#btnCreate");
+                    app.dialog.confirm('Esta seguro de cerrar el juego?', function () {
+                        btn.text("Iniciar a jugar");
+                        clearInterval(gameLive);
+                        //Enviar a cerrar el juego
+                        app.request({
+                            url: url + '/games/' + game_id + '/close',
+                            data: {game_id},
+                            dataType: 'json',
+                            contentType: "application/json",
+                            method: 'PUT',
+                            success: function (res, status, xhr) {
+                                console.log(res);
+                                game_id = 0;
+                                prev_challenge = 0;
+                            },
 
-                            $("b#code,div#code").html(data.game.code);
-                            $("p#question, div#question").html(data.game.nombre);
-
-                            /*Guardar el id del juego*/
-                            game_id = data.game.id;
-
-                            let alerta = app.sheet.create({
-                                    el: '.my-sheet-swipe-to-close',
-                                    swipeToClose: true,
-                                    backdrop: true,
-                            });
-                            alerta.open();
-                        })
-                        .catch(function (err) {
-                            console.log(err.xhr)
-                            console.log(err.status)
-                            console.log(err.message)
+                            error: function (xhr, status) {
+                            }
                         });
-                })
+
+                    });
+
+                }
             }
         },
+
+
         on: {
-            pageInit: function(page) {
+            pageInit: function (page) {
                 var self = this;
+                // Init top demo gauge
+                gauge = app.gauge.create({
+                    el: '.demo-gauge',
+                    type: 'circle',
+                    value: 0,
+                    size: 150,
+                    borderColor: '#2196f3',
+                    borderWidth: 10,
+                    valueText: '0%',
+                    valueFontSize: 41,
+                    valueTextColor: '#2196f3',
+                    labelText: 'de aciertos',
+                });
+
+                $("#btnCreate").text("Iniciar a jugar");
+
                 Urls = ['/1/', '/2/', '/3/', '/4/', '/5/', '/6/', '/7/', '/8/', '/9/', '/10/', '/11/', '/12/',
                     '/13/', '/14/', '/15/', '/16/', '/17/', '/18/', '/19/', '/20/', '/21/'
                 ];
@@ -223,7 +364,7 @@
                         'fillStyle': '#D2F692',
                         'text': '21',
                         'index': 20
-                    }, ],
+                    },],
 
                     'animation': {
                         'type': 'spinToStop',
@@ -246,6 +387,7 @@
                 });
 
                 let audio = new Audio('tick.mp3');
+
                 /* let musica = new Audio('audio/WaterWorld.mp3');  */
 
                 function sonidoRuleta() {
@@ -270,15 +412,15 @@
                     ctx.stroke();
                     ctx.fill();
                 }
+
                 self.theWheel = theWheel;
 
                 function redirection(indicatedSegment) {
-
                     let loader = app.dialog.progress();
-                    setTimeout(function() {
+                    setTimeout(function () {
                         let id = parseInt(indicatedSegment.index) + 1;
-                            app.request.promise.get(url + '/questions/'+id  , 
-                                {
+                        app.request.promise.get(url + '/questions/' + id,
+                            {
                                 game_id, prev_challenge
                             })
                             .then(function (res) {
@@ -287,23 +429,35 @@
                                 //$("#code").html(data.id);
                                 //$("#question").empty().append(data.nombre);
                                 prev_challenge = data.prev_challenge;
+                                answer = data.question.answer;
+                                question_id = data.question.id;
+                                let im = answer.split('i');
+                                $(".imgAnswer").attr('src', './img/'+im[1]+'.webp');
+                                $("#career").html(data.question.carrera);
                                 let question = app.dialog.alert(data.question.nombre, 'Pregunta!', () => {
+                                    $("#question_lbl").html('').html(data.question.nombre);
                                     $("#reset").trigger("click");
-                                /*let alerta = app.sheet.create({
-                                        el: '.my-sheet-swipe-to-close',
-                                        swipeToClose: true,
-                                        backdrop: true,
-                                });
-                                alerta.open();*/
+                                    progress = setInterval(() => {
+                                        if(timeLeft === 0){
+                                            clearInterval(progress);
+                                        }
+                                        timeLeft = timeLeft - 1;
+                                        console.log(timeLeft);
+                                        let countDown = (timeLeft / 15) * 100;
+                                        console.log(countDown);
+                                        console.log(timeLeft);
+                                        app.progressbar.set('#demo-inline-progressbar', countDown);
+                                    }, 1000)
                                 });
                             })
                             .catch(function (err) {
                                 console.log(err.xhr)
                                 console.log(err.status)
                                 console.log(err.message)
-                            })                        
+                            })
                     }, 500);
                 }
+
                 function deleteSegment(indicatedSegment) {
                     //alert("You have won " + indicatedSegment.text);
                     theWheel.deleteSegment(indicatedSegment.index);
