@@ -7,6 +7,11 @@ body {
     background: #111;
 }
 
+#career{
+    font-size: 2em;
+    white-space: normal;
+}
+
 #imgPpal {
     margin: 0 auto;
     top: 50%;
