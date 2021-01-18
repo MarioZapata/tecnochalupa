@@ -7,3 +7,5 @@ Deepskyblue
 lawngreen
 
 Galeria No va
+
+Una prueba para probar la consola.
