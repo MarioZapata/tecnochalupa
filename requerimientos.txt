@@ -9,3 +9,5 @@ lawngreen
 Galeria No va
 
 Una prueba para probar la consola.
+
+Muy buena la prueba, todo fue un éxito. Gracias.
